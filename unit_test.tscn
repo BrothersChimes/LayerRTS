@@ -83,26 +83,15 @@ tile_data = PoolIntArray( 1245184, 0, 0, 1245185, 0, 0, 1245186, 0, 0, 1245187, 
 
 [node name="SkeletonArmy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 196, 296 )
-
-[node name="Skeleton1" parent="SkeletonArmy" instance=ExtResource( 2 )]
-
-[node name="Skeleton2" parent="SkeletonArmy" instance=ExtResource( 2 )]
-position = Vector2( -32, 0 )
-
-[node name="Skeleton3" parent="SkeletonArmy" instance=ExtResource( 2 )]
-position = Vector2( -64, 0 )
+UnitType = ExtResource( 2 )
+army_size = 3
 
 [node name="GoblinArmy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 448, 296 )
-speed = -20
-
-[node name="Goblin1" parent="GoblinArmy" instance=ExtResource( 3 )]
-
-[node name="Goblin2" parent="GoblinArmy" instance=ExtResource( 3 )]
-position = Vector2( 32, 0 )
-
-[node name="Goblin3" parent="GoblinArmy" instance=ExtResource( 3 )]
-position = Vector2( 64, 0 )
+speed = 25
+is_flipped = true
+UnitType = ExtResource( 3 )
+army_size = 4
 
 [node name="Background" type="Node2D" parent="."]
 
