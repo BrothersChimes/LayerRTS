@@ -4,31 +4,33 @@ const Soldier = preload("Soldier.tscn")
 
 func _ready():
 	var soldierA = Soldier.instance()
-	soldierA.hp = 3
+	soldierA.hp = 5
+	soldierA.display_name = "Soldier A"
 	
 	var soldierB = Soldier.instance()
-	soldierB.hp = 6
+	soldierB.hp = 3
+	soldierB.display_name = "Soldier B"
 
 	while (true): 
-		print("Solider A attacks soldier B")
+		print(soldierA.display_name + " attacks " + soldierB.display_name)
 		soldierB.hp -= 1
-		print("Soldier B HP is now: " + str(soldierB.hp))
+		print(soldierB.display_name + " HP is now: " + str(soldierB.hp))
 		if soldierB.hp <= 0: 
-			print("SOLDIER B IS DEAD")
+			print(soldierB.display_name + " IS DEAD")
 			break
-		print("Solider B attacks soldier A")
+		print(soldierB.display_name + " attacks " + soldierA.display_name)
 		soldierA.hp -= 1
-		print("Soldier A HP is now: " + str(soldierA.hp))
+		print(soldierA.display_name + " HP is now: " + str(soldierA.hp))
 		if soldierA.hp <= 0: 
-			print("SOLDIER A IS DEAD")
+			print(soldierA.display_name + " IS DEAD")
 			break
 	
 	print("")
 	print("Attack done")
 	if soldierA.hp <= 0:
-		print("SOLDIER B WINS!")
+		print(soldierB.display_name + " WINS")
 	elif soldierB.hp <= 0:
-		 print("SOLDIER A WINS!")
+		print(soldierA.display_name + " IS DEAD")
 	else: 
 		print("No-one wins")
 

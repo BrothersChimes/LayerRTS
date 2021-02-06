@@ -4,7 +4,8 @@
 script/source = "extends Node
 
 # var a = 2
-export var hp = 0
+var hp = 0
+var display_name = \"display name\"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
