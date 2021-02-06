@@ -2,11 +2,15 @@ extends Node
 
 const Soldier = preload("Soldier.tscn")
 
+
 var armyA
 var armyB 
 
 var attack_army
 var defend_army
+
+const time_between_rounds = 0.25
+var time_since_last_round = 0
 
 func create_soldiers_for_test(): 
 	armyA = []
@@ -50,11 +54,16 @@ var state = State.COMBAT
 
 func _process(delta):
 	if state == State.COMBAT:
-		perform_combat_state_action()
+		perform_combat_state_action(delta)
 	elif state == State.END_COMBAT:
 		perform_end_combat_state_action()
 	
-func perform_combat_state_action(): 
+func perform_combat_state_action(delta): 
+	time_since_last_round += delta
+	if time_since_last_round < time_between_rounds: 
+		return
+	time_since_last_round = 0
+	
 	attacking_army_attacks_defending_army(attack_army, defend_army)
 	print("")
 	if defend_army.size() == 0: 
