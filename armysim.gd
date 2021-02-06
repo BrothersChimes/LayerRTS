@@ -5,6 +5,9 @@ const Soldier = preload("Soldier.tscn")
 var armyA
 var armyB 
 
+var attack_army
+var defend_army
+
 func create_soldiers_for_test(): 
 	armyA = []
 	armyB = []
@@ -38,30 +41,38 @@ func create_soldiers_for_test():
 
 func _ready():
 	create_soldiers_for_test()
-	var attack_army = armyA
-	var defend_army = armyB
-	
-	while (true): 
-		attacking_army_attacks_defending_army(attack_army, defend_army)
-		print("")
-		if defend_army.size() == 0: 
-			break
-		
-		var temp = defend_army
-		defend_army = attack_army
-		attack_army = temp
+	attack_army = armyA
+	defend_army = armyB
 
-	print("Attack done")
+enum State {COMBAT, END_COMBAT, OUT_OF_COMBAT}
+
+var state = State.COMBAT
+
+func _process(delta):
+	if state == State.COMBAT:
+		perform_combat_state_action()
+	elif state == State.END_COMBAT:
+		perform_end_combat_state_action()
 	
+func perform_combat_state_action(): 
+	attacking_army_attacks_defending_army(attack_army, defend_army)
+	print("")
+	if defend_army.size() == 0: 
+		state = State.END_COMBAT
+		return
+	var temp = defend_army
+	defend_army = attack_army
+	attack_army = temp
+
+func perform_end_combat_state_action(): 
+	print("Attack done")
 	if armyA.size() == 0 :
 		print("Army B won")
 	elif armyB.size() == 0: 
 		print("Army A won")
 	else: 
 		print("No-one won") # Shouldn't happen
-
-func _process(delta):
-	pass
+	state = State.OUT_OF_COMBAT
 
 func attacking_army_attacks_defending_army(attack_army, defend_army): 
 	var attacker = attack_army[0]
