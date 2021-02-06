@@ -16,16 +16,20 @@ func create_soldiers_for_test():
 
 func _ready():
 	create_soldiers_for_test()
-
+	var attacker = soldierA
+	var defender = soldierB
+	
 	while (true): 
-		attacker_attacks_defender(soldierA, soldierB)
-		if soldierB.hp <= 0: 
-			print(soldierB.display_name + " IS DEAD")
+		attacker_attacks_defender(attacker, defender)
+		if defender.hp <= 0: 
+			print(defender.display_name + " IS DEAD")
 			break
-		attacker_attacks_defender(soldierB, soldierA)
-		if soldierA.hp <= 0: 
-			print(soldierA.display_name + " IS DEAD")
-			break
+		
+		var temp = defender
+		defender = attacker
+		attacker = temp
+		
+
 	
 	print("")
 	print("Attack done")
