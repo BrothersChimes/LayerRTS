@@ -2,14 +2,20 @@ extends Node
 
 const Soldier = preload("Soldier.tscn")
 
-func _ready():
-	var soldierA = Soldier.instance()
+var soldierA
+var soldierB
+
+func create_soldiers_for_test(): 
+	soldierA = Soldier.instance()
 	soldierA.hp = 5
 	soldierA.display_name = "Soldier A"
 	
-	var soldierB = Soldier.instance()
+	soldierB = Soldier.instance()
 	soldierB.hp = 3
 	soldierB.display_name = "Soldier B"
+
+func _ready():
+	create_soldiers_for_test()
 
 	while (true): 
 		attacker_attacks_defender(soldierA, soldierB)
@@ -29,6 +35,8 @@ func _ready():
 		print(soldierA.display_name + " IS DEAD")
 	else: 
 		print("No-one wins")
+
+
 
 func _process(delta):
 	pass
