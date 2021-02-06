@@ -9,15 +9,32 @@ func create_soldiers_for_test():
 	armyA = []
 	armyB = []
 	
-	var soldierA = Soldier.instance()
-	soldierA.hp = 5
-	soldierA.display_name = "Soldier A"
-	armyA.append(soldierA)
+	var soldier
+	 
+	soldier = Soldier.instance()
+	soldier.hp = 1
+	soldier.display_name = "Soldier A1"
+	armyA.append(soldier)
 	
-	var soldierB = Soldier.instance()
-	soldierB.hp = 3
-	soldierB.display_name = "Soldier B"
-	armyB.append(soldierB)
+	soldier = Soldier.instance()
+	soldier.hp = 2
+	soldier.display_name = "Soldier A2"
+	armyA.append(soldier)
+	
+	soldier = Soldier.instance()
+	soldier.hp = 3
+	soldier.display_name = "Soldier A3"
+	armyA.append(soldier)
+	
+	soldier = Soldier.instance()
+	soldier.hp = 3
+	soldier.display_name = "Soldier B1"
+	armyB.append(soldier)
+	
+	soldier = Soldier.instance()
+	soldier.hp = 5
+	soldier.display_name = "Soldier B2"
+	armyB.append(soldier)
 
 func _ready():
 	create_soldiers_for_test()
@@ -35,6 +52,13 @@ func _ready():
 	
 	print("")
 	print("Attack done")
+	
+	if armyA.size() == 0 :
+		print("Army B won")
+	elif armyB.size() == 0: 
+		print("Army A won")
+	else: 
+		print("No-one won") # Shouldn't happen
 
 func _process(delta):
 	pass
