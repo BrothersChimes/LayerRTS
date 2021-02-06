@@ -12,15 +12,11 @@ func _ready():
 	soldierB.display_name = "Soldier B"
 
 	while (true): 
-		print(soldierA.display_name + " attacks " + soldierB.display_name)
-		soldierB.hp -= 1
-		print(soldierB.display_name + " HP is now: " + str(soldierB.hp))
+		attacker_attacks_defender(soldierA, soldierB)
 		if soldierB.hp <= 0: 
 			print(soldierB.display_name + " IS DEAD")
 			break
-		print(soldierB.display_name + " attacks " + soldierA.display_name)
-		soldierA.hp -= 1
-		print(soldierA.display_name + " HP is now: " + str(soldierA.hp))
+		attacker_attacks_defender(soldierB, soldierA)
 		if soldierA.hp <= 0: 
 			print(soldierA.display_name + " IS DEAD")
 			break
@@ -36,3 +32,9 @@ func _ready():
 
 func _process(delta):
 	pass
+
+func attacker_attacks_defender(attacker, defender): 
+	print(attacker.display_name + " attacks " + defender.display_name)
+	defender.hp -= 1
+	print(defender.display_name + " HP is now: " + str(defender.hp))
+	
