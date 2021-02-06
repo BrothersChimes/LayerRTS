@@ -1,3 +1,8 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
 
-[node name="armysim" type="Node2D"]
+[ext_resource path="res://armysim.gd" type="Script" id=1]
+
+[node name="armysimtest" type="Node2D"]
+
+[node name="armysim" type="Node" parent="."]
+script = ExtResource( 1 )
