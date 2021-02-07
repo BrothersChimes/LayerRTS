@@ -6,11 +6,11 @@
 
 [node name="ArmySimTest" type="Node2D"]
 
-[node name="ArmySim" type="Node" parent="."]
+[node name="ArmySim" type="Node2D" parent="."]
 script = ExtResource( 1 )
 
 [node name="ArmyCombatSim" type="Node" parent="ArmySim"]
 script = ExtResource( 3 )
 
-[node name="ArmyCreator" type="Node" parent="ArmySim"]
+[node name="ArmyCreator" type="Node2D" parent="ArmySim"]
 script = ExtResource( 2 )

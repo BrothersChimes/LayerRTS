@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/soldier_attack_still.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -17,3 +19,7 @@ func set_hp(new_hp):
 
 [node name="Soldier" type="Node2D"]
 script = SubResource( 1 )
+
+[node name="soldier_attack_still" type="Sprite" parent="."]
+position = Vector2( 1.125, -3.5 )
+texture = ExtResource( 1 )

@@ -14,6 +14,7 @@ func create_soldiers_for_test():
 	soldier.hp = 1
 	soldier.display_name = "A1"
 	armyA.add_soldier_to_back(soldier)
+	soldier.set_position(Vector2(200, 200))
 		
 	soldier = Soldier.instance()
 	soldier.hp = 2

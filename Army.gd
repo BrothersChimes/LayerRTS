@@ -5,7 +5,11 @@ var display_name = "display name"
 
 func add_soldier_to_back(soldier): 
 	soldiers.append(soldier)
-	
+	army_locator().add_soldier(soldier)
+
+func army_locator():
+	return $ArmyLocator
+
 func move_soldier_to_back(): 
 	add_soldier_to_back(pop_front())
 
