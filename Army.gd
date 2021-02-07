@@ -2,14 +2,14 @@ extends Node2D
 
 var soldiers = []
 
-func add_soldier(soldier): 
+func add_soldier_to_back(soldier): 
 	soldiers.append(soldier)
+	
+func move_soldier_to_back(): 
+	add_soldier_to_back(pop_front())
 
 func size(): 
 	return soldiers.size()
-
-func push_back(soldier): 
-	soldiers.append(soldier)
 	
 func pop_front(): 
 	return soldiers.pop_front()

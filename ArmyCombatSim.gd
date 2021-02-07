@@ -77,7 +77,7 @@ func attacking_army_attacks_defending_army(attack_army_, defend_army_):
 		return
 				
 	print(defender.display_name + " CYCLES TO BACK")
-	defend_army.push_back(defend_army.pop_front())
+	defend_army.move_soldier_to_back()
 	defender = defend_army.front()
 	print(defender.display_name + " is now at the front.")
 		
