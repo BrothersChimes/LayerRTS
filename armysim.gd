@@ -2,7 +2,6 @@ extends Node
 
 const Soldier = preload("Soldier.tscn")
 
-
 var armyA
 var armyB 
 

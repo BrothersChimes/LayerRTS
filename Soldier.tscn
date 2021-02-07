@@ -15,5 +15,5 @@ func set_hp(new_hp):
 	hp = new_hp
 "
 
-[node name="Soldier" type="Node"]
+[node name="Soldier" type="Node2D"]
 script = SubResource( 1 )
