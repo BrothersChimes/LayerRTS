@@ -1,34 +1,38 @@
 extends Node
 
 const Soldier = preload("Soldier.tscn")
+const Army = preload("Army.tscn")
 
 func create_soldiers_for_test(): 
-	var armies = [[],[]]
+	var armyA = Army.instance()
+	var armyB = Army.instance()
 	var soldier
 	 
 	soldier = Soldier.instance()
 	soldier.hp = 1
 	soldier.display_name = "A1"
-	armies[0].append(soldier)
-	
+	armyA.add_soldier(soldier)
+		
 	soldier = Soldier.instance()
 	soldier.hp = 2
 	soldier.display_name = "A2"
-	armies[0].append(soldier)
+	armyA.add_soldier(soldier)
 	
 	soldier = Soldier.instance()
 	soldier.hp = 3
 	soldier.display_name = "A3"
-	armies[0].append(soldier)
+	armyA.add_soldier(soldier)
 	
 	soldier = Soldier.instance()
 	soldier.hp = 3
 	soldier.display_name = "B1"
-	armies[1].append(soldier)
+	armyB.add_soldier(soldier)
 	
 	soldier = Soldier.instance()
 	soldier.hp = 5
 	soldier.display_name = "B2"
-	armies[1].append(soldier)
+	armyB.add_soldier(soldier)
+	
 
-	return armies
+
+	return [armyA, armyB]

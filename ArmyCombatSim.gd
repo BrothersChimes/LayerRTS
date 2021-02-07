@@ -1,7 +1,5 @@
 extends Node
 
-const Soldier = preload("Soldier.tscn")
-
 var armyA
 var armyB
 
@@ -53,8 +51,8 @@ func perform_end_combat_state_action():
 	state = State.OUT_OF_COMBAT
 
 func attacking_army_attacks_defending_army(attack_army_, defend_army_): 
-	var attacker = attack_army_[0]
-	var defender = defend_army_[0]
+	var attacker = attack_army_.front()
+	var defender = defend_army_.front()
 	attacker_attacks_defender(attacker, defender)
 	
 	if defender.hp <= 0:
