@@ -43,9 +43,9 @@ func perform_combat_state_action(delta):
 func perform_end_combat_state_action(): 
 	print("Attack done")
 	if armyA.size() == 0 :
-		print("Army B won")
+		print(armyB.display_name + " won")
 	elif armyB.size() == 0: 
-		print("Army A won")
+		print(armyA.display_name + " won")
 	else: 
 		print("No-one won") # Shouldn't happen
 	state = State.OUT_OF_COMBAT
@@ -56,8 +56,7 @@ func attacking_army_attacks_defending_army(attack_army_, defend_army_):
 	attacker_attacks_defender(attacker, defender)
 	
 	if defender.hp <= 0:
-		print(defender.display_name + " IS DEAD")
-		defend_army.pop_front()
+		defend_army.kill_front_soldier()
 		
 		if defend_army.size() == 0: 
 			print("The defending army has no soldiers left.")

@@ -7,7 +7,9 @@ func create_soldiers_for_test():
 	var armyA = Army.instance()
 	var armyB = Army.instance()
 	var soldier
-	 
+	
+	armyA.display_name = "Army A"
+	
 	soldier = Soldier.instance()
 	soldier.hp = 1
 	soldier.display_name = "A1"
@@ -22,6 +24,8 @@ func create_soldiers_for_test():
 	soldier.hp = 3
 	soldier.display_name = "A3"
 	armyA.add_soldier_to_back(soldier)
+	
+	armyB.display_name = "Army B"
 	
 	soldier = Soldier.instance()
 	soldier.hp = 3
