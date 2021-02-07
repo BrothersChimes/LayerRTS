@@ -2,54 +2,60 @@ extends Node
 
 const Soldier = preload("Soldier.tscn")
 
-var armyA
-var armyB 
-
 var attack_army
 var defend_army
+
+var armyA
+var armyB
 
 const time_between_rounds = 0.25
 var time_since_last_round = 0
 
+enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
+var state = State.OUT_OF_COMBAT
+
 func create_soldiers_for_test(): 
-	armyA = []
-	armyB = []
+	var armies = [[],[]]
 	
 	var soldier
 	 
 	soldier = Soldier.instance()
 	soldier.hp = 1
 	soldier.display_name = "A1"
-	armyA.append(soldier)
+	armies[0].append(soldier)
 	
 	soldier = Soldier.instance()
 	soldier.hp = 2
 	soldier.display_name = "A2"
-	armyA.append(soldier)
+	armies[0].append(soldier)
 	
 	soldier = Soldier.instance()
 	soldier.hp = 3
 	soldier.display_name = "A3"
-	armyA.append(soldier)
+	armies[0].append(soldier)
 	
 	soldier = Soldier.instance()
 	soldier.hp = 3
 	soldier.display_name = "B1"
-	armyB.append(soldier)
+	armies[1].append(soldier)
 	
 	soldier = Soldier.instance()
 	soldier.hp = 5
 	soldier.display_name = "B2"
-	armyB.append(soldier)
+	armies[1].append(soldier)
+
+	return armies
 
 func _ready():
-	create_soldiers_for_test()
-	attack_army = armyA
-	defend_army = armyB
+	var armies = create_soldiers_for_test()
+	armyA = armies[0]
+	armyB = armies[1]
+	start_combat_with_armies(armyA, armyB)
 
-enum State {COMBAT, END_COMBAT, OUT_OF_COMBAT}
-
-var state = State.COMBAT
+func start_combat_with_armies(attack_army_, defend_army_):
+	attack_army = attack_army_
+	defend_army = defend_army_
+	state = State.COMBAT
 
 func _process(delta):
 	if state == State.COMBAT:
