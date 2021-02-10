@@ -14,3 +14,8 @@ script = ExtResource( 3 )
 
 [node name="ArmyCreator" type="Node2D" parent="ArmySim"]
 script = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+zoom = Vector2( 0.25, 0.25 )

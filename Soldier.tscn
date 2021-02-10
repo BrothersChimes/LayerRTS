@@ -15,11 +15,17 @@ func _ready():
 
 func set_hp(new_hp):
 	hp = new_hp
+	
+func face_left(): 
+	$soldier_sprite.flip_h = true
+	
+func face_right(): 
+	$soldier_sprite.flip_h = false
 "
 
 [node name="Soldier" type="Node2D"]
 script = SubResource( 1 )
 
-[node name="soldier_attack_still" type="Sprite" parent="."]
+[node name="soldier_sprite" type="Sprite" parent="."]
 position = Vector2( 1.125, -3.5 )
 texture = ExtResource( 1 )
