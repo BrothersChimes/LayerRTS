@@ -34,21 +34,21 @@ func set_sprite_defend():
 	$soldier_sprite.play(\"defend\")
 "
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "attack",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "defend",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "attack",
 "speed": 5.0
 } ]
 
@@ -57,5 +57,5 @@ script = SubResource( 1 )
 
 [node name="soldier_sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -1 )
-frames = SubResource( 13 )
+frames = SubResource( 2 )
 animation = "defend"

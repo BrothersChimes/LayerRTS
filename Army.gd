@@ -9,11 +9,16 @@ func add_soldier(soldier):
 	$ArmyLocator.add_soldier(soldier)
 
 func move_soldier_to_back(): 
-	soldiers.append(soldiers.pop_front())
+	var soldier = soldiers.pop_front()
+	soldiers.append(soldier)
+
+func set_all_soldiers_idle(): 
+	for soldier in soldiers: 
+		soldier.set_sprite_idle()
 
 func size(): 
 	return soldiers.size()
-	
+
 func front(): 
 	return soldiers.front()
 

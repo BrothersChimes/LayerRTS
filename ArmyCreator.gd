@@ -15,7 +15,7 @@ func create_soldiers_for_test():
 	soldier = Soldier.instance()
 	soldier.hp = 1
 	soldier.display_name = "A1"
-	soldier.position = Vector2(32,army_height)
+	soldier.position = Vector2(96,army_height)
 	soldier.set_sprite_idle()
 	armyA.add_soldier(soldier)
 		
@@ -29,8 +29,8 @@ func create_soldiers_for_test():
 	soldier = Soldier.instance()
 	soldier.hp = 3
 	soldier.display_name = "A3"
-	soldier.position = Vector2(96,army_height)
-	soldier.set_sprite_attack()
+	soldier.position = Vector2(32,army_height)
+	soldier.set_sprite_idle()
 	armyA.add_soldier(soldier)
 	
 	armyB.display_name = "Army B"
@@ -39,7 +39,7 @@ func create_soldiers_for_test():
 	soldier.hp = 3
 	soldier.display_name = "B1"
 	soldier.position = Vector2(160,army_height)
-	soldier.set_sprite_defend()
+	soldier.set_sprite_idle()
 	soldier.face_left()
 	armyB.add_soldier(soldier)
 	
