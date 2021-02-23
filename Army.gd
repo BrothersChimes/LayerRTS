@@ -25,4 +25,5 @@ func front():
 func kill_front_soldier(): 
 	var front_soldier = soldiers.pop_front()
 	# TODO remove from the army locator - add it to main? 
+	front_soldier.set_sprite_dead()
 	print(front_soldier.display_name + " IS DEAD")
