@@ -6,7 +6,7 @@ var armyB
 var attack_army
 var defend_army
 
-const time_between_rounds = 5
+const time_between_rounds = 1
 var time_since_last_round = time_between_rounds
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
@@ -57,6 +57,15 @@ func perform_end_combat_state_action():
 	state = State.OUT_OF_COMBAT
 
 func attacking_army_attacks_defending_army(attack_army_, defend_army_): 
+	# Get damage from attack army
+	# Deal damage to defend army - defend army does its deaths here 
+	# Give defend army a chance to retreat
+	# Give defend army a chance to cycle
+	# Does attack army cycle? 
+
+	# Comment: may need to think of this in terms of states to give armies time 
+	# to animate etc. 
+	
 	var attacker = attack_army_.front()
 	var defender = defend_army_.front()
 	attacker_attacks_defender(attacker, defender)

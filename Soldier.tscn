@@ -36,6 +36,11 @@ func set_sprite_defend():
 
 func set_sprite_dead(): 
 	$soldier_sprite.play(\"dead\")
+	
+func defend_and_take_damage(damage): 
+	set_sprite_defend()
+	hp -= 1
+	print(display_name + \" HP is now: \" + str(hp))
 "
 
 [sub_resource type="SpriteFrames" id=2]
