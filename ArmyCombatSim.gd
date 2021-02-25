@@ -6,8 +6,14 @@ var armyB
 var attack_army
 var defend_army
 
-const time_between_rounds = 1
-var time_since_last_round = time_between_rounds
+const phase_attack_allowed_time = 0.4
+const phase_death_allowed_time = 0.2
+const phase_cycle_allowed_time = 0.4
+
+var time_to_next_phase = 0
+
+enum Phase {ATTACK, DEATH_CHECK, DEATH, CYCLE}
+var phase = Phase.ATTACK
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
 var state = State.OUT_OF_COMBAT
@@ -26,25 +32,15 @@ func _process(delta):
 		perform_end_combat_state_action()
 	
 func perform_combat_state_action(delta): 
-	time_since_last_round -= delta
-	if time_since_last_round > 0: 
-		return
-	time_since_last_round = time_between_rounds
+	# attack_army.set_all_soldiers_idle()
+	# defend_army.set_all_soldiers_idle()
 	
-	attack_army.set_all_soldiers_idle()
-	defend_army.set_all_soldiers_idle()
-	
-	attacking_army_attacks_defending_army(attack_army, defend_army)
-	print("")
-	if defend_army.size() == 0: 
-		state = State.END_COMBAT
-		return
-		
-	print("Attack army before: " + attack_army.display_name)	
+	attacking_army_attacks_defending_army(delta)
+
+func switch_attacker(): 	
 	var temp = defend_army
 	defend_army = attack_army
 	attack_army = temp
-	print("Attack army after: " + attack_army.display_name)	
 
 func perform_end_combat_state_action(): 
 	print("Attack done")
@@ -56,44 +52,73 @@ func perform_end_combat_state_action():
 		print("No-one won") # Shouldn't happen
 	state = State.OUT_OF_COMBAT
 
-func attacking_army_attacks_defending_army(attack_army_, defend_army_): 
-	# Get damage from attack army
-	# Deal damage to defend army - defend army does its deaths here 
-	# Give defend army a chance to retreat
-	# Give defend army a chance to cycle
-	# Does attack army cycle? 
-
-	# Comment: may need to think of this in terms of states to give armies time 
-	# to animate etc. 
-	
-	var attacker = attack_army_.front()
-	var defender = defend_army_.front()
+func attacking_army_attacks_defending_army(delta): 
+	if time_to_next_phase <= 0:
+		if phase == Phase.ATTACK:
+			print("ATTACK PHASE")
+			attack_phase()
+			time_to_next_phase = phase_attack_allowed_time
+			phase = Phase.DEATH_CHECK
+		elif phase == Phase.DEATH_CHECK: 
+			var defender = defend_army.front()
+			print("DEFENDER " + defender.display_name 
+				+ " HP AT: " + str(defender.hp))
+			if defender.hp <= 0:
+				phase = Phase.DEATH
+			else: 
+				phase = Phase.CYCLE
+			time_to_next_phase = 0
+		elif phase == Phase.DEATH: 
+			print("DEATH PHASE")
+			death_phase()
+			time_to_next_phase = phase_death_allowed_time
+			phase = Phase.CYCLE
+		elif phase == Phase.CYCLE: 
+			print("CYCLE PHASE")
+			cycle_phase()
+			time_to_next_phase = phase_cycle_allowed_time
+			switch_attacker()
+			phase = Phase.ATTACK
+	else: 
+		time_to_next_phase -= delta
+		
+func attack_phase(): 
+	var attacker = attack_army.front()
+	var defender = defend_army.front()
 	attacker_attacks_defender(attacker, defender)
+
+func death_phase(): 
+	var defender = defend_army.front()
+	defend_army.kill_front_soldier()
 	
-	if defender.hp <= 0:
-		defend_army_.kill_front_soldier()
-		
-		if defend_army_.size() == 0: 
-			print("The defending army has no soldiers left.")
-			return
-
-		defender = defend_army_.front()	
-		
-		if defend_army_.size() == 1: 
-			print(defender.display_name + " is the only one left.")
-			return
-			
-		print(defender.display_name + " is now in front.")
+	if defend_army.size() == 0: 
+		print("The defending army has no soldiers left.")
+		phase = Phase.ATTACK
+		state = State.END_COMBAT
 		return
-
-	if defend_army_.size() == 1: 
+		
+	defender = defend_army.front()	
+	
+	if defend_army.size() == 1: 
+		print(defender.display_name + " is the only one left.")
+		
+	print(defender.display_name + " is now in front.")
+	
+func cycle_phase(): 
+	defend_army.set_all_soldiers_idle()
+	attack_army.set_all_soldiers_idle()
+	# TODO replace with proper animation
+	
+	var defender = defend_army.front()
+	if defend_army.size() == 1: 
 		print(defender.display_name + " is the only one left and so does not cycle.")
 		return
-				
+	
 	print(defender.display_name + " CYCLES TO BACK")
-	defend_army_.move_soldier_to_back()
-	defender = defend_army_.front()
+	defend_army.move_soldier_to_back()
+	defender = defend_army.front()
 	print(defender.display_name + " is now at the front.")
+	print("")
 		
 func attacker_attacks_defender(attacker, defender): 
 	print(attacker.display_name + " attacks " + defender.display_name)
