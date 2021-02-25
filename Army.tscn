@@ -16,6 +16,7 @@ visible = false
 texture = ExtResource( 3 )
 
 [node name="NameLabel" type="Label" parent="ArmyLocator"]
+visible = false
 margin_left = -35.707
 margin_top = -43.3824
 margin_right = 40.293

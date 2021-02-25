@@ -19,6 +19,10 @@ config/name="LayerRTS"
 run/main_scene="res://ArmySimTest.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1600
+
 [importer_defaults]
 
 texture={
