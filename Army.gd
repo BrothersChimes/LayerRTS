@@ -20,7 +20,6 @@ func move_soldier_to_back():
 	soldiers.append(front_soldier)
 
 func cycle_soldiers(): 
-	print("Cycling soldiers in " + display_name)
 	var i = 0
 	for soldier in soldiers: 
 		var x_shift
@@ -28,8 +27,6 @@ func cycle_soldiers():
 			x_shift = 0 -distance_between_soldiers*i
 		else: 
 			x_shift = distance_between_soldiers*i
-		print("x_shift is " + str(x_shift))
-		print("Moving soldier " + soldier.display_name + " to " + str($ArmyLocator.position.x + x_shift))
 		soldier.expected_x_position = $ArmyLocator.position.x + x_shift
 		i += 1
 
@@ -48,10 +45,8 @@ func kill_front_soldier():
 	# TODO remove from the army locator - add it to main? 
 	front_soldier.set_sprite_dead()
 	front_soldier.position.y += randi()%10-5
-	print(front_soldier.display_name + " IS DEAD")
 
 func set_location(new_location): 
-	print("Setting location of army " + display_name + " to " + str(new_location))
 	$ArmyLocator.position = new_location
 
 func advance(how_far): 
@@ -61,7 +56,6 @@ func advance(how_far):
 	else: 
 		x_shift = 0 - distance_between_soldiers
 	$ArmyLocator.position.x = $ArmyLocator.position.x + x_shift
-	print("Setting location of army " + display_name + " to " + str($ArmyLocator.position))
 	
 func retreat(how_far): 
 	var x_shift
@@ -70,4 +64,3 @@ func retreat(how_far):
 	else: 
 		x_shift = 0 + distance_between_soldiers
 	$ArmyLocator.position.x = $ArmyLocator.position.x + x_shift
-	print("Setting location of army " + display_name + " to " + str($ArmyLocator.position))
