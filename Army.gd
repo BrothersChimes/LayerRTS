@@ -8,9 +8,12 @@ func add_soldier(soldier):
 	soldiers.append(soldier)
 	$ArmyLocator.add_soldier(soldier)
 
+# TODO rename to cycle soldiers
 func move_soldier_to_back(): 
 	var soldier = soldiers.pop_front()
 	soldiers.append(soldier)
+	# TODO actually cycle the soldiers
+	# soldier.expected_x_position = $ArmyLocator.position.x TEST CODE
 
 func set_all_soldiers_idle(): 
 	for soldier in soldiers: 

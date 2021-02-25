@@ -4,44 +4,7 @@
 [ext_resource path="res://assets/soldier_idle_3.png" type="Texture" id=2]
 [ext_resource path="res://assets/soldier_defend_still.png" type="Texture" id=3]
 [ext_resource path="res://assets/soldier_dead.png" type="Texture" id=4]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends Node
-
-# var a = 2
-var hp = 0
-var display_name = \"display name\"
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-func set_hp(new_hp):
-	hp = new_hp
-	
-func face_left(): 
-	$soldier_sprite.flip_h = true
-	
-func face_right(): 
-	$soldier_sprite.flip_h = false
-
-func set_sprite_attack(): 
-	$soldier_sprite.play(\"attack\")
-
-func set_sprite_idle(): 
-	$soldier_sprite.play(\"idle\")
-	
-func set_sprite_defend(): 
-	$soldier_sprite.play(\"defend\")
-
-func set_sprite_dead(): 
-	$soldier_sprite.play(\"dead\")
-	
-func defend_and_take_damage(damage): 
-	set_sprite_defend()
-	hp -= 1
-	print(display_name + \" HP is now: \" + str(hp))
-"
+[ext_resource path="res://Soldier.gd" type="Script" id=5]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -67,7 +30,7 @@ animations = [ {
 } ]
 
 [node name="Soldier" type="Node2D"]
-script = SubResource( 1 )
+script = ExtResource( 5 )
 
 [node name="soldier_sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -1 )
