@@ -1,10 +1,30 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Army.gd" type="Script" id=1]
 [ext_resource path="res://ArmyLocator.gd" type="Script" id=2]
+[ext_resource path="res://assets/skeleton_attack_still.png" type="Texture" id=3]
+[ext_resource path="res://SoldierHolder.gd" type="Script" id=4]
 
 [node name="Army" type="Node"]
 script = ExtResource( 1 )
 
 [node name="ArmyLocator" type="Node2D" parent="."]
 script = ExtResource( 2 )
+
+[node name="skeleton_attack_still" type="Sprite" parent="ArmyLocator"]
+visible = false
+texture = ExtResource( 3 )
+
+[node name="NameLabel" type="Label" parent="ArmyLocator"]
+margin_left = -35.707
+margin_top = -43.3824
+margin_right = 40.293
+margin_bottom = -29.3824
+text = "Army Name"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SoldierHolder" type="Node2D" parent="."]
+script = ExtResource( 4 )

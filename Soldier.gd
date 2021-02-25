@@ -1,13 +1,11 @@
 extends Node2D
 
-const cycle_speed = 10
+const cycle_speed = 100
 const position_delta = 4 
 # var a = 2
 var hp = 0
 var display_name = "display name"
 var expected_x_position = 0
-
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

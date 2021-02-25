@@ -6,10 +6,10 @@ var armyB
 var attack_army
 var defend_army
 
-const phase_attack_allowed_time = 0.2
-const phase_defend_allowed_time = 0.4
-const phase_death_allowed_time = 0.4
-const phase_cycle_allowed_time = 0.4
+const phase_attack_allowed_time = 1
+const phase_defend_allowed_time = 1
+const phase_death_allowed_time = 1
+const phase_cycle_allowed_time = 1
 
 var time_to_next_phase = 0
 
