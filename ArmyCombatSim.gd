@@ -6,13 +6,14 @@ var armyB
 var attack_army
 var defend_army
 
-const phase_attack_allowed_time = 0.4
-const phase_death_allowed_time = 0.2
+const phase_attack_allowed_time = 0.2
+const phase_defend_allowed_time = 0.4
+const phase_death_allowed_time = 0.4
 const phase_cycle_allowed_time = 0.4
 
 var time_to_next_phase = 0
 
-enum Phase {ATTACK, DEATH_CHECK, DEATH, CYCLE}
+enum Phase {ATTACK, DEATH_CHECK, DEFEND, DEATH, CYCLE}
 var phase = Phase.ATTACK
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
@@ -66,8 +67,13 @@ func attacking_army_attacks_defending_army(delta):
 			if defender.hp <= 0:
 				phase = Phase.DEATH
 			else: 
-				phase = Phase.CYCLE
+				phase = Phase.DEFEND
 			time_to_next_phase = 0
+		elif phase == Phase.DEFEND: 
+			print("DEFEND PHASE")
+			defend_phase()
+			time_to_next_phase = phase_defend_allowed_time
+			phase = Phase.CYCLE
 		elif phase == Phase.DEATH: 
 			print("DEATH PHASE")
 			death_phase()
@@ -86,6 +92,10 @@ func attack_phase():
 	var attacker = attack_army.front()
 	var defender = defend_army.front()
 	attacker_attacks_defender(attacker, defender)
+
+func defend_phase(): 
+	var defender = defend_army.front()
+	defender.set_sprite_defend()
 
 func death_phase(): 
 	var defender = defend_army.front()
@@ -123,6 +133,5 @@ func cycle_phase():
 func attacker_attacks_defender(attacker, defender): 
 	print(attacker.display_name + " attacks " + defender.display_name)
 	attacker.set_sprite_attack()
-	defender.set_sprite_defend()
 	defender.hp -= 1
 	print(defender.display_name + " HP is now: " + str(defender.hp))
