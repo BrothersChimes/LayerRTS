@@ -33,6 +33,19 @@ animations = [ {
 script = ExtResource( 5 )
 
 [node name="soldier_sprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -1 )
+position = Vector2( -0.891907, -0.702698 )
 frames = SubResource( 2 )
-animation = "dead"
+animation = "idle"
+playing = true
+
+[node name="NameLabel" type="Label" parent="."]
+margin_left = -35.0
+margin_top = -20.0
+margin_right = 36.0
+margin_bottom = -6.0
+text = "Name"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

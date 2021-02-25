@@ -103,6 +103,7 @@ func death_phase():
 	
 	if defend_army.size() == 0: 
 		print("The defending army has no soldiers left.")
+		attack_army.set_all_soldiers_idle()
 		phase = Phase.ATTACK
 		state = State.END_COMBAT
 		return

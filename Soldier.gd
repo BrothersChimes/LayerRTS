@@ -11,7 +11,7 @@ var expected_x_position = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body
+	$NameLabel.text = display_name
 	
 func _process(delta): 
 	# TODO Only do this if you are alive and idle or whatever
@@ -42,6 +42,7 @@ func set_sprite_defend():
 
 func set_sprite_dead(): 
 	$soldier_sprite.play("dead")
+	$NameLabel.visible = false
 	
 func defend_and_take_damage(damage): 
 	set_sprite_defend()
