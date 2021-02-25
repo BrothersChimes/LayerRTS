@@ -6,10 +6,10 @@ var armyB
 var attack_army
 var defend_army
 
-const phase_attack_allowed_time = 1
-const phase_defend_allowed_time = 1
-const phase_death_allowed_time = 1
-const phase_cycle_allowed_time = 1
+const phase_attack_allowed_time = 0.2
+const phase_defend_allowed_time = 0.2
+const phase_death_allowed_time = 0.4
+const phase_cycle_allowed_time = 0.4
 
 var time_to_next_phase = 0
 
@@ -100,6 +100,8 @@ func defend_phase():
 func death_phase(): 
 	var defender = defend_army.front()
 	defend_army.kill_front_soldier()
+	attack_army.advance(1)
+	defend_army.retreat(1)
 	
 	if defend_army.size() == 0: 
 		print("The defending army has no soldiers left.")
@@ -118,19 +120,10 @@ func death_phase():
 func cycle_phase(): 
 	defend_army.set_all_soldiers_idle()
 	attack_army.set_all_soldiers_idle()
-	# TODO replace with proper animation
-	
-	var defender = defend_army.front()
-	if defend_army.size() == 1: 
-		print(defender.display_name + " is the only one left and so does not cycle.")
-		return
-	
-	print(defender.display_name + " CYCLES TO BACK")
 	defend_army.move_soldier_to_back()
-	defender = defend_army.front()
-	print(defender.display_name + " is now at the front.")
-	print("")
-		
+	defend_army.cycle_soldiers()
+	attack_army.cycle_soldiers()
+
 func attacker_attacks_defender(attacker, defender): 
 	print(attacker.display_name + " attacks " + defender.display_name)
 	attacker.set_sprite_attack()

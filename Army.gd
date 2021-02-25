@@ -18,14 +18,9 @@ func add_soldier(soldier):
 func move_soldier_to_back(): 
 	var front_soldier = soldiers.pop_front()
 	soldiers.append(front_soldier)
-	# TODO actually cycle the soldiers
-	
-	# XXX vvv 
-	print("Soldiers are: ")
-	for soldier in soldiers:
-		print(soldier.display_name)
-	# XXX ^^^
-	
+
+func cycle_soldiers(): 
+	print("Cycling soldiers in " + display_name)
 	var i = 0
 	for soldier in soldiers: 
 		var x_shift
@@ -58,3 +53,21 @@ func kill_front_soldier():
 func set_location(new_location): 
 	print("Setting location of army " + display_name + " to " + str(new_location))
 	$ArmyLocator.position = new_location
+
+func advance(how_far): 
+	var x_shift
+	if is_facing_right: 
+		x_shift = 0 + distance_between_soldiers
+	else: 
+		x_shift = 0 - distance_between_soldiers
+	$ArmyLocator.position.x = $ArmyLocator.position.x + x_shift
+	print("Setting location of army " + display_name + " to " + str($ArmyLocator.position))
+	
+func retreat(how_far): 
+	var x_shift
+	if is_facing_right: 
+		x_shift = 0 - distance_between_soldiers
+	else: 
+		x_shift = 0 + distance_between_soldiers
+	$ArmyLocator.position.x = $ArmyLocator.position.x + x_shift
+	print("Setting location of army " + display_name + " to " + str($ArmyLocator.position))
