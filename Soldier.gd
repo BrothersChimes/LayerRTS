@@ -4,12 +4,14 @@ const cycle_speed = 100
 const position_delta = 4 
 # var a = 2
 var hp = 0
+var stamina = 100
 var display_name = "display name"
 var expected_x_position = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$NameLabel.text = display_name
+	$StaminaLabel.text = str(stamina)
 	$HealthLabel.text = str(hp)
 	
 func _process(delta): 
@@ -21,15 +23,23 @@ func _process(delta):
 	else: 
 		position.x = expected_x_position
 		
-func set_hp(new_hp):
-	hp = new_hp
+func take_hp_damage(hp_damage): 
+	hp = hp - hp_damage
 	if hp < 0: 
 		hp = 0
 	$HealthLabel.text = str(hp)
-	
-func take_damage(damage): 
-	set_hp(hp - damage)
-		
+
+func take_stamina_damage(stamina_damage): 
+	stamina -= stamina_damage
+	if stamina < 0: 
+		stamina = 0
+	print("New stamina for " + display_name + ": " + str(stamina))
+	$StaminaLabel.text = str(stamina)	
+	var damaged_roll = randi()%100
+	print("Damaged roll: " + str(damaged_roll))
+	if damaged_roll >= stamina: 
+		take_hp_damage(1)
+
 func face_left(): 
 	$soldier_sprite.flip_h = true
 	
@@ -48,5 +58,6 @@ func set_sprite_defend():
 func set_sprite_dead(): 
 	$soldier_sprite.play("dead")
 	$NameLabel.visible = false
+	$StaminaLabel.visible = false
 	$HealthLabel.visible = false
 

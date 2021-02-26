@@ -3,7 +3,7 @@ extends Node
 const Soldier = preload("Soldier.tscn")
 const Army = preload("Army.tscn")
 
-const army_height = 96
+const army_height = 64
 const distance_between_soldiers = 32
 
 const armyAxPos = 192
@@ -43,18 +43,20 @@ func create_soldiers_for_test():
 	
 	return [armyA, armyB]
 
-func create_soldier_A(number, hp): 
+func create_soldier_A(number, stamina): 
 	var soldier = Soldier.instance()
-	soldier.hp = hp
+	soldier.hp = 2
+	soldier.stamina = stamina*10
 	soldier.display_name = "A" + str(number)
 	soldier.position = Vector2(armyAxPos-distance_between_soldiers*(number-1),army_height)
 	soldier.expected_x_position = soldier.position.x
 	soldier.set_sprite_idle()
 	armyA.add_soldier(soldier)
 	
-func create_soldier_B(number, hp): 
+func create_soldier_B(number, stamina): 
 	var soldier = Soldier.instance()
-	soldier.hp = hp
+	soldier.hp = 2
+	soldier.stamina = stamina*10
 	soldier.display_name = "B" + str(number)
 	soldier.position = Vector2(armyBxPos+distance_between_soldiers*(number-1),army_height)
 	soldier.expected_x_position = soldier.position.x

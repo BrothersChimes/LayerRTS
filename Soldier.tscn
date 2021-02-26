@@ -33,7 +33,7 @@ animations = [ {
 script = ExtResource( 5 )
 
 [node name="soldier_sprite" type="AnimatedSprite" parent="."]
-position = Vector2( -0.891907, -0.702698 )
+position = Vector2( -0.594605, -1 )
 frames = SubResource( 1 )
 animation = "idle"
 playing = true
@@ -50,11 +50,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HealthLabel" type="Label" parent="."]
-margin_left = -21.1084
+[node name="StaminaLabel" type="Label" parent="."]
+margin_left = -20.8111
 margin_top = 34.7843
-margin_right = 18.8916
+margin_right = 19.1889
 margin_bottom = 48.7843
+text = "0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthLabel" type="Label" parent="."]
+margin_left = -20.5138
+margin_top = 51.1358
+margin_right = 19.4862
+margin_bottom = 65.1358
 text = "0"
 align = 1
 __meta__ = {
