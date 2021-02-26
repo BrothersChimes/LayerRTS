@@ -107,4 +107,4 @@ func cycle_phase():
 
 func attacker_attacks_defender(attacker, defender): 
 	attacker.set_sprite_attack()
-	defender.hp -= 1
+	defender.take_damage(1)

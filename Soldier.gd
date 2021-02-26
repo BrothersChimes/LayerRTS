@@ -10,6 +10,7 @@ var expected_x_position = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$NameLabel.text = display_name
+	$HealthLabel.text = str(hp)
 	
 func _process(delta): 
 	# TODO Only do this if you are alive and idle or whatever
@@ -22,7 +23,13 @@ func _process(delta):
 		
 func set_hp(new_hp):
 	hp = new_hp
+	if hp < 0: 
+		hp = 0
+	$HealthLabel.text = str(hp)
 	
+func take_damage(damage): 
+	set_hp(hp - damage)
+		
 func face_left(): 
 	$soldier_sprite.flip_h = true
 	
@@ -41,8 +48,5 @@ func set_sprite_defend():
 func set_sprite_dead(): 
 	$soldier_sprite.play("dead")
 	$NameLabel.visible = false
-	
-func defend_and_take_damage(damage): 
-	set_sprite_defend()
-	hp -= 1
-	print(display_name + " HP is now: " + str(hp))
+	$HealthLabel.visible = false
+
