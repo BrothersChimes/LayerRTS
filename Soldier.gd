@@ -8,6 +8,8 @@ var stamina = 100
 var display_name = "display name"
 var expected_x_position = 0
 
+var is_facing_left = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$NameLabel.text = display_name
@@ -38,22 +40,36 @@ func take_stamina_damage(stamina_damage):
 
 
 func face_left(): 
+	is_facing_left = true
 	$soldier_sprite.flip_h = true
 	
 func face_right(): 
+	is_facing_left = false
 	$soldier_sprite.flip_h = false
 
 func set_sprite_attack(): 
-	$soldier_sprite.play("attack")
+	if hp <= 1: 
+		$soldier_sprite.play("attack_hurt")
+	else:
+		$soldier_sprite.play("attack")
 
 func set_sprite_idle(): 
-	$soldier_sprite.play("idle")
-	
+	if hp <= 1: 
+		$soldier_sprite.play("idle_hurt")
+	else: 
+		$soldier_sprite.play("idle")
+		
 func set_sprite_damaged(): 
-	$soldier_sprite.play("damaged")
+	if hp <= 0: 
+		$soldier_sprite.play("damaged_hurt")
+	else:
+		$soldier_sprite.play("damaged")
 	
 func set_sprite_defend(): 
-	$soldier_sprite.play("defend")
+	if hp <= 1: 
+		$soldier_sprite.play("defend_hurt")
+	else:
+		$soldier_sprite.play("defend")
 
 func set_sprite_dead(): 
 	$soldier_sprite.play("dead")
