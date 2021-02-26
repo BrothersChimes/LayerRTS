@@ -35,10 +35,7 @@ func take_stamina_damage(stamina_damage):
 		stamina = 0
 	print("New stamina for " + display_name + ": " + str(stamina))
 	$StaminaLabel.text = str(stamina)	
-	var damaged_roll = randi()%100
-	print("Damaged roll: " + str(damaged_roll))
-	if damaged_roll >= stamina: 
-		take_hp_damage(1)
+
 
 func face_left(): 
 	$soldier_sprite.flip_h = true
@@ -51,6 +48,9 @@ func set_sprite_attack():
 
 func set_sprite_idle(): 
 	$soldier_sprite.play("idle")
+	
+func set_sprite_damaged(): 
+	$soldier_sprite.play("damaged")
 	
 func set_sprite_defend(): 
 	$soldier_sprite.play("defend")
