@@ -7,6 +7,8 @@ var hp = 0
 var stamina = 100
 var display_name = "display name"
 var expected_x_position = 0
+var small_offset = 5
+var large_offset = 10
 
 var is_facing_left = false
 
@@ -38,7 +40,6 @@ func take_stamina_damage(stamina_damage):
 	print("New stamina for " + display_name + ": " + str(stamina))
 	$StaminaLabel.text = str(stamina)	
 
-
 func face_left(): 
 	is_facing_left = true
 	$soldier_sprite.flip_h = true
@@ -48,29 +49,56 @@ func face_right():
 	$soldier_sprite.flip_h = false
 
 func set_sprite_attack(): 
+	set_sprite_move_in_offset(large_offset)
+	$soldier_sprite.z_index = -1
 	if hp <= 1: 
 		$soldier_sprite.play("attack_hurt")
 	else:
 		$soldier_sprite.play("attack")
 
 func set_sprite_idle(): 
+	set_sprite_center()
+	$soldier_sprite.z_index = 0
 	if hp <= 1: 
 		$soldier_sprite.play("idle_hurt")
 	else: 
 		$soldier_sprite.play("idle")
 		
 func set_sprite_damaged(): 
+	$soldier_sprite.z_index = 0
 	if hp <= 0: 
+		set_sprite_move_in_offset(large_offset)
 		$soldier_sprite.play("damaged_hurt")
 	else:
+		set_sprite_move_in_offset(small_offset)
 		$soldier_sprite.play("damaged")
 	
 func set_sprite_defend(): 
+	if is_facing_left: 
+		$soldier_sprite.z_index = -2
+	else: 
+		$soldier_sprite.z_index = 2
+	set_sprite_move_back_offset(small_offset)
 	if hp <= 1: 
 		$soldier_sprite.play("defend_hurt")
 	else:
 		$soldier_sprite.play("defend")
 
+func set_sprite_center(): 
+	$soldier_sprite.position.x = 0
+	
+func set_sprite_move_in_offset(offset): 
+	if is_facing_left: 
+		$soldier_sprite.position.x = -offset
+	else: 
+		$soldier_sprite.position.x = offset	
+
+func set_sprite_move_back_offset(offset): 
+	if is_facing_left: 
+		$soldier_sprite.position.x = offset
+	else: 
+		$soldier_sprite.position.x = -offset	
+	
 func set_sprite_dead(): 
 	$soldier_sprite.play("dead")
 	$NameLabel.visible = false
