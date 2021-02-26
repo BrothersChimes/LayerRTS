@@ -6,15 +6,13 @@ var armyB
 var attack_army
 var defend_army
 
-const phase_attack_allowed_time = 0
-const phase_defend_allowed_time = 0.3
-const phase_death_allowed_time = 0.3
+const phase_defend_allowed_time = 0.2
 const phase_cycle_allowed_time_if_alive = 0.3
-const phase_cycle_allowed_time_if_dead = 0.6
+const phase_cycle_allowed_time_if_dead = 0.4
 
 var time_to_next_phase = 0
 
-enum Phase {ATTACK, DAMAGE_CHECK, DEATH_CHECK, DEFEND, DEATH, 
+enum Phase {ATTACK, DAMAGE_CHECK, DEFEND, DEATH, 
 	DAMAGE, CYCLE_LIVE, CYCLE_DEAD}
 var phase = Phase.ATTACK
 
@@ -47,7 +45,7 @@ func perform_combat_state_action(delta):
 		match(phase): 
 			Phase.ATTACK:
 				attack_phase()
-				time_to_next_phase = phase_attack_allowed_time
+				time_to_next_phase = 0
 				phase = Phase.DAMAGE_CHECK
 			Phase.DAMAGE_CHECK: 
 				var damaged_roll = randi()%100
@@ -55,16 +53,9 @@ func perform_combat_state_action(delta):
 				var defender = defend_army.front()
 				if damaged_roll >= defender.stamina: 
 					defender.take_hp_damage(1)
-					phase = Phase.DEATH_CHECK
+					phase = Phase.DAMAGE
 				else: 
 					phase = Phase.DEFEND
-				time_to_next_phase = 0
-			Phase.DEATH_CHECK: 
-				var defender = defend_army.front()
-				if defender.hp <= 0:
-					phase = Phase.DEATH
-				else: 
-					phase = Phase.DAMAGE
 				time_to_next_phase = 0
 			Phase.DEFEND: 
 				defend_phase()
@@ -73,11 +64,14 @@ func perform_combat_state_action(delta):
 			Phase.DAMAGE: 
 				var defender = defend_army.front()
 				defender.set_sprite_damaged()
+				if defender.hp <= 0:
+					phase = Phase.DEATH
+				else: 
+					phase = Phase.CYCLE_LIVE
 				time_to_next_phase = phase_defend_allowed_time
-				phase = Phase.CYCLE_LIVE
 			Phase.DEATH: 
 				death_phase()
-				time_to_next_phase = phase_death_allowed_time
+				time_to_next_phase = 0
 				phase = Phase.CYCLE_DEAD
 			Phase.CYCLE_LIVE: 
 				cycle_phase()
