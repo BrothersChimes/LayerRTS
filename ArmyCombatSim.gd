@@ -14,7 +14,7 @@ const phase_cycle_allowed_time_if_dead = 0.6
 
 var time_to_next_phase = 0
 
-enum Phase {ATTACK, DEATH_CHECK, DEFEND, DEATH, CYCLE_LIVE, CYCLE_DEAD}
+enum Phase {ATTACK, DAMAGE_CHECK, DEATH_CHECK, DEFEND, DAMAGE, DEATH, CYCLE_LIVE, CYCLE_DEAD}
 var phase = Phase.ATTACK
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
@@ -43,35 +43,36 @@ func perform_end_combat_state_action():
 
 func perform_combat_state_action(delta): 
 	if time_to_next_phase <= 0:
-		if phase == Phase.ATTACK:
-			attack_phase()
-			time_to_next_phase = phase_attack_allowed_time
-			phase = Phase.DEATH_CHECK
-		elif phase == Phase.DEATH_CHECK: 
-			var defender = defend_army.front()
-			if defender.hp <= 0:
-				phase = Phase.DEATH
-			else: 
-				phase = Phase.DEFEND
-			time_to_next_phase = 0
-		elif phase == Phase.DEFEND: 
-			defend_phase()
-			time_to_next_phase = phase_defend_allowed_time
-			phase = Phase.CYCLE_LIVE
-		elif phase == Phase.DEATH: 
-			death_phase()
-			time_to_next_phase = phase_death_allowed_time
-			phase = Phase.CYCLE_DEAD
-		elif phase == Phase.CYCLE_LIVE: 
-			cycle_phase()
-			time_to_next_phase = phase_cycle_allowed_time_if_alive
-			switch_attacker()
-			phase = Phase.ATTACK
-		elif phase == Phase.CYCLE_DEAD: 
-			cycle_phase()
-			time_to_next_phase = phase_cycle_allowed_time_if_dead
-			switch_attacker()
-			phase = Phase.ATTACK
+		match(phase): 
+			Phase.ATTACK:
+				attack_phase()
+				time_to_next_phase = phase_attack_allowed_time
+				phase = Phase.DEATH_CHECK
+			Phase.DEATH_CHECK: 
+				var defender = defend_army.front()
+				if defender.hp <= 0:
+					phase = Phase.DEATH
+				else: 
+					phase = Phase.DEFEND
+				time_to_next_phase = 0
+			Phase.DEFEND: 
+				defend_phase()
+				time_to_next_phase = phase_defend_allowed_time
+				phase = Phase.CYCLE_LIVE
+			Phase.DEATH: 
+				death_phase()
+				time_to_next_phase = phase_death_allowed_time
+				phase = Phase.CYCLE_DEAD
+			Phase.CYCLE_LIVE: 
+				cycle_phase()
+				time_to_next_phase = phase_cycle_allowed_time_if_alive
+				switch_attacker()
+				phase = Phase.ATTACK
+			Phase.CYCLE_DEAD: 
+				cycle_phase()
+				time_to_next_phase = phase_cycle_allowed_time_if_dead
+				switch_attacker()
+				phase = Phase.ATTACK
 	else: 
 		time_to_next_phase -= delta
 		

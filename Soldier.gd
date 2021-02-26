@@ -60,4 +60,7 @@ func set_sprite_dead():
 	$NameLabel.visible = false
 	$StaminaLabel.visible = false
 	$HealthLabel.visible = false
+	var position_shift = randi()%10-5
+	$soldier_sprite.z_index = position_shift-2
+	$soldier_sprite.position.y += position_shift
 
