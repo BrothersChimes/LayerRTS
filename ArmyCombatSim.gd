@@ -69,7 +69,8 @@ func perform_combat_state_action(delta):
 			Phase.DEFEND: 
 				defend_phase()
 				time_to_next_phase = phase_defend_allowed_time
-				phase = Phase.CYCLE_LIVE
+				switch_attacker()
+				phase = Phase.READY_ATTACK
 			Phase.DAMAGE: 
 				var defender = defend_army.front()
 				var attacker = attack_army.front()
@@ -144,7 +145,7 @@ func death_phase():
 	
 	if defend_army.size() == 0: 
 		attack_army.set_all_soldiers_idle()
-		phase = Phase.ATTACK
+		phase = Phase.READY_ATTACK
 		state = State.END_COMBAT
 		return
 	
