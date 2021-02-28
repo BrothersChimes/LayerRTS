@@ -10,14 +10,16 @@ const base_speed = 0.2
 
 const phase_attack_allowed_time = base_speed*2
 const phase_defend_allowed_time = base_speed*2
-const phase_cycle_allowed_time_if_alive = base_speed*3
-const phase_cycle_allowed_time_if_dead = base_speed*4
+const phase_cycle_allowed_time_if_alive = base_speed*1
+const phase_cycle_allowed_time_if_dead = base_speed*1
 
 var time_to_next_phase = 0
+var is_attacker_ready = false
+var is_defender_ready = false
 
-enum Phase {ATTACK, DAMAGE_CHECK, DEFEND, DEATH, 
+enum Phase {READY_ATTACK, ATTACK, DAMAGE_CHECK, DEFEND, DEATH, 
 	DAMAGE, CYCLE_LIVE, CYCLE_DEAD}
-var phase = Phase.ATTACK
+var phase = Phase.READY_ATTACK
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
 var state = State.OUT_OF_COMBAT
@@ -46,6 +48,8 @@ func perform_end_combat_state_action():
 func perform_combat_state_action(delta): 
 	if time_to_next_phase <= 0:
 		match(phase): 
+			Phase.READY_ATTACK: 
+				ready_attack_phase()
 			Phase.ATTACK:
 				attack_phase()
 				time_to_next_phase = phase_attack_allowed_time
@@ -82,15 +86,35 @@ func perform_combat_state_action(delta):
 				cycle_phase()
 				time_to_next_phase = phase_cycle_allowed_time_if_alive
 				switch_attacker()
-				phase = Phase.ATTACK
+				phase = Phase.READY_ATTACK
 			Phase.CYCLE_DEAD: 
 				cycle_phase()
 				time_to_next_phase = phase_cycle_allowed_time_if_dead
 				switch_attacker()
-				phase = Phase.ATTACK
+				phase = Phase.READY_ATTACK
 	else: 
 		time_to_next_phase -= delta
 		
+func ready_attack_phase(): 
+	var attacker = attack_army.front()
+	attacker.connect("attack_ready", self, "_on_attacker_attack_ready")
+	var defender = defend_army.front()
+	defender.connect("attack_ready", self, "_on_defender_attack_ready")
+	is_attacker_ready = false
+	is_defender_ready = false
+	attacker.ready_for_attack()
+	defender.ready_for_attack()
+	
+func _on_attacker_attack_ready(): 
+	is_attacker_ready = true
+	if is_defender_ready: 
+		phase = Phase.ATTACK
+
+func _on_defender_attack_ready(): 
+	is_defender_ready = true
+	if is_attacker_ready: 
+		phase = Phase.ATTACK	
+	
 func attack_phase(): 
 	var attacker = attack_army.front()
 	var defender = defend_army.front()

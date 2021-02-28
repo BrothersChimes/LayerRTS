@@ -1,5 +1,7 @@
 extends Node2D
 
+signal attack_ready
+
 const cycle_speed = 50
 const position_delta = 4 
 # var a = 2
@@ -15,6 +17,8 @@ var is_walk_backwards = false
 var walk_speed = 0
 
 var intended_anim = "idle"
+
+var is_readying_attack = false
 
 enum MiniPhase {REPOSITION, REACH_LOCATION, DEAD}
 var mini_phase = MiniPhase.REPOSITION
@@ -41,6 +45,9 @@ func _process(delta):
 	else: 
 		position.x = expected_x_position
 		mini_phase = MiniPhase.REACH_LOCATION
+		if is_readying_attack:
+			emit_signal("attack_ready")
+			is_readying_attack =false
 	
 	if mini_phase == MiniPhase.REPOSITION:
 		$SoldierSprite.speed_scale = walk_speed
@@ -56,6 +63,9 @@ func _process(delta):
 		$SoldierSprite.speed_scale = 1
 		$SoldierSprite.play(intended_anim)
 		$SoldierSprite.flip_h = is_facing_left
+
+func ready_for_attack(): 
+	is_readying_attack = true
 
 func set_intended_anim(new_intended_anim): 
 	intended_anim = new_intended_anim

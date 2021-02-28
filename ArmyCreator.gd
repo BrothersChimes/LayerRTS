@@ -44,8 +44,8 @@ func create_soldier_A(number, stamina):
 	soldier.hp = 2
 	soldier.stamina = stamina
 	soldier.display_name = "A" + str(number)
-	soldier.position = Vector2(armyAxPos-distance_between_soldiers*(number-1),army_height)
-	soldier.expected_x_position = soldier.position.x
+	soldier.position = Vector2(armyAxPos-distance_between_soldiers*(number-1)-128,army_height)
+	soldier.expected_x_position = soldier.position.x+128
 	soldier.set_sprite_idle()
 	armyA.add_soldier(soldier)
 	
@@ -54,8 +54,8 @@ func create_soldier_B(number, stamina):
 	soldier.hp = 2
 	soldier.stamina = stamina
 	soldier.display_name = "B" + str(number)
-	soldier.position = Vector2(armyBxPos+distance_between_soldiers*(number-1),army_height)
-	soldier.expected_x_position = soldier.position.x
+	soldier.position = Vector2(armyBxPos+distance_between_soldiers*(number-1)+128,army_height)
+	soldier.expected_x_position = soldier.position.x-128
 	soldier.set_sprite_idle()
 	soldier.face_left()
 	armyB.add_soldier(soldier)
