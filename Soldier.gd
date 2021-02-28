@@ -16,7 +16,7 @@ var walk_speed = 0
 
 var intended_anim = "idle"
 
-enum MiniPhase {REPOSITION, REACH_LOCATION}
+enum MiniPhase {REPOSITION, REACH_LOCATION, DEAD}
 var mini_phase = MiniPhase.REPOSITION
 
 # Called when the node enters the scene tree for the first time.
@@ -26,6 +26,8 @@ func _ready():
 	$HealthLabel.text = str(hp)
 	
 func _process(delta): 
+	if mini_phase == MiniPhase.DEAD:
+		return
 	# TODO Only do this if you are alive and idle or whatever
 	walk_speed = clamp(abs(position.x - expected_x_position)/50+1,1,5)
 	if position.x - expected_x_position > position_delta: 
@@ -148,11 +150,21 @@ func set_sprite_move_back_offset(offset):
 		$SoldierSprite.position.x = -offset	
 	
 func set_sprite_dead(): 
-	set_intended_anim("dead")
+	mini_phase = MiniPhase.DEAD
+	# set_intended_anim("dead")
+	$SoldierSprite.play("dead")
 	$NameLabel.visible = false
 	$StaminaLabel.visible = false
 	$HealthLabel.visible = false
-	var position_shift = randi()%10-5
-	$SoldierSprite.z_index = position_shift-2
-	$SoldierSprite.position.y += position_shift
-
+	var dirrandi = randi()
+	print("dirrandi: " + str(dirrandi))
+	var dir = randi()%2
+	print("dir: " + str(dir))
+	$SoldierSprite.flip_h = false
+	if dir == 0: 
+		$SoldierSprite.flip_h = true
+	var x_position_shift = randi()%4-2
+	var y_position_shift = randi()%10-5
+	$SoldierSprite.position.x += x_position_shift
+	$SoldierSprite.position.y += y_position_shift
+	$SoldierSprite.z_index = y_position_shift-2
