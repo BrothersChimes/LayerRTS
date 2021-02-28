@@ -10,6 +10,7 @@ const base_speed = 0.2
 
 const phase_clash_allowed_time = base_speed*2
 const phase_defend_allowed_time = base_speed*2
+const phase_stunned_allowed_time = base_speed*1
 const phase_cycle_allowed_time_if_alive = base_speed*1
 const phase_cycle_allowed_time_if_dead = base_speed*1
 
@@ -17,7 +18,7 @@ var time_to_next_phase = 0
 var is_attacker_ready = false
 var is_defender_ready = false
 
-enum Phase {READY_ATTACK, CLASH, DAMAGE_CHECK, DEFEND, DEATH, 
+enum Phase {READY_ATTACK, CLASH, DAMAGE_CHECK, DEFEND, DEATH, STUNNED, 
 	DAMAGE, CYCLE_LIVE, CYCLE_DEAD}
 var phase = Phase.READY_ATTACK
 
@@ -77,12 +78,17 @@ func perform_combat_state_action(delta):
 				if defender.hp <= 0:
 					phase = Phase.DEATH
 				else: 
-					phase = Phase.CYCLE_LIVE
+					phase = Phase.STUNNED
 				time_to_next_phase = phase_defend_allowed_time
 			Phase.DEATH: 
 				death_phase()
 				time_to_next_phase = 0
 				phase = Phase.CYCLE_DEAD
+			Phase.STUNNED: 
+				var defender = defend_army.front()
+				defender.set_sprite_idle()
+				time_to_next_phase = phase_stunned_allowed_time
+				phase = Phase.CYCLE_LIVE
 			Phase.CYCLE_LIVE: 
 				cycle_live_phase()
 				time_to_next_phase = phase_cycle_allowed_time_if_alive

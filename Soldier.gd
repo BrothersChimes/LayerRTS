@@ -33,7 +33,7 @@ func _process(delta):
 	if mini_phase == MiniPhase.DEAD:
 		return
 	# TODO Only do this if you are alive and idle or whatever
-	walk_speed = clamp(abs(position.x - expected_x_position)/50+1,1,5)
+	walk_speed = clamp(abs(position.x - expected_x_position)/50+1,1,3)
 	if position.x - expected_x_position > position_delta: 
 		position.x -= delta*cycle_speed*walk_speed
 		mini_phase = MiniPhase.REPOSITION
