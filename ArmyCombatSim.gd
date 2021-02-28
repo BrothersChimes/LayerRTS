@@ -83,12 +83,12 @@ func perform_combat_state_action(delta):
 				time_to_next_phase = 0
 				phase = Phase.CYCLE_DEAD
 			Phase.CYCLE_LIVE: 
-				cycle_phase()
+				cycle_live_phase()
 				time_to_next_phase = phase_cycle_allowed_time_if_alive
 				switch_attacker()
 				phase = Phase.READY_ATTACK
 			Phase.CYCLE_DEAD: 
-				cycle_phase()
+				cycle_dead_phase()
 				time_to_next_phase = phase_cycle_allowed_time_if_dead
 				switch_attacker()
 				phase = Phase.READY_ATTACK
@@ -142,10 +142,16 @@ func death_phase():
 	
 	defender = defend_army.front()	
 
-func cycle_phase(): 
+func cycle_live_phase(): 
 	defend_army.set_all_soldiers_idle()
 	attack_army.set_all_soldiers_idle()
 	defend_army.move_soldier_to_back()
+	defend_army.cycle_soldiers()
+	attack_army.cycle_soldiers()
+
+func cycle_dead_phase(): 
+	defend_army.set_all_soldiers_idle()
+	attack_army.set_all_soldiers_idle()
 	defend_army.cycle_soldiers()
 	attack_army.cycle_soldiers()
 
