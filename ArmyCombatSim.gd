@@ -8,7 +8,7 @@ var defend_army
 
 const base_speed = 0.2
 
-const phase_attack_allowed_time = base_speed*2
+const phase_clash_allowed_time = base_speed*2
 const phase_defend_allowed_time = base_speed*2
 const phase_cycle_allowed_time_if_alive = base_speed*1
 const phase_cycle_allowed_time_if_dead = base_speed*1
@@ -17,7 +17,7 @@ var time_to_next_phase = 0
 var is_attacker_ready = false
 var is_defender_ready = false
 
-enum Phase {READY_ATTACK, ATTACK, DAMAGE_CHECK, DEFEND, DEATH, 
+enum Phase {READY_ATTACK, CLASH, DAMAGE_CHECK, DEFEND, DEATH, 
 	DAMAGE, CYCLE_LIVE, CYCLE_DEAD}
 var phase = Phase.READY_ATTACK
 
@@ -50,9 +50,9 @@ func perform_combat_state_action(delta):
 		match(phase): 
 			Phase.READY_ATTACK: 
 				ready_attack_phase()
-			Phase.ATTACK:
-				attack_phase()
-				time_to_next_phase = phase_attack_allowed_time
+			Phase.CLASH:
+				clash_phase()
+				time_to_next_phase = phase_clash_allowed_time
 				phase = Phase.DAMAGE_CHECK
 			Phase.DAMAGE_CHECK: 
 				var damaged_roll = randi()%100
@@ -63,6 +63,7 @@ func perform_combat_state_action(delta):
 					phase = Phase.DAMAGE
 				else: 
 					phase = Phase.DEFEND
+				defender.take_stamina_damage(20)
 				time_to_next_phase = 0
 			Phase.DEFEND: 
 				defend_phase()
@@ -108,17 +109,18 @@ func ready_attack_phase():
 func _on_attacker_attack_ready(): 
 	is_attacker_ready = true
 	if is_defender_ready: 
-		phase = Phase.ATTACK
+		phase = Phase.CLASH
 
 func _on_defender_attack_ready(): 
 	is_defender_ready = true
 	if is_attacker_ready: 
-		phase = Phase.ATTACK	
+		phase = Phase.CLASH	
 	
-func attack_phase(): 
+func clash_phase(): 
 	var attacker = attack_army.front()
 	var defender = defend_army.front()
-	attacker_attacks_defender(attacker, defender)
+	attacker.set_sprite_attack()
+	defender.set_sprite_attack_defend()
 
 func defend_phase(): 
 	var attacker = attack_army.front()
@@ -155,7 +157,3 @@ func cycle_dead_phase():
 	defend_army.cycle_soldiers()
 	attack_army.cycle_soldiers()
 
-func attacker_attacks_defender(attacker, defender): 
-	attacker.set_sprite_attack()
-	defender.set_sprite_attack_defend()
-	defender.take_stamina_damage(20)
