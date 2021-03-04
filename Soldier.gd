@@ -7,6 +7,7 @@ const position_delta = 4
 # var a = 2
 var hp = 0
 var stamina = 100
+var order_number = 0
 var display_name = "display name"
 var expected_x_position = 0
 var small_offset = 5
@@ -33,7 +34,7 @@ func _process(delta):
 	if mini_phase == MiniPhase.DEAD:
 		return
 	# TODO Only do this if you are alive and idle or whatever
-	walk_speed = clamp(abs(position.x - expected_x_position)/50+1,1,3)
+	walk_speed = clamp(abs(position.x - expected_x_position)/75+1,2,4)
 	if position.x - expected_x_position > position_delta: 
 		position.x -= delta*cycle_speed*walk_speed
 		mini_phase = MiniPhase.REPOSITION

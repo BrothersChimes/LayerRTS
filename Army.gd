@@ -15,18 +15,22 @@ func add_soldier(soldier):
 	$SoldierHolder.add_soldier(soldier)
 
 # TODO sort this by moving the front guy to where he needs to be
-# rather than moving the whole army around.
+# rather than moving the whole army around?
 
-class MyCustomSorter:
+class SoldierSorter:
 	static func sort_ascending(soldier1, soldier2):
-		if soldier1.hp > soldier2.hp: 
+		if soldier1.stamina > soldier2.stamina: 
 			return true
-		if soldier1.stamina > soldier2.stamina:
-			return true
+		elif soldier1.stamina == soldier2.stamina: 
+			if soldier1.hp > soldier2.hp:
+				return true
+			elif soldier1.hp == soldier2.hp: 
+				if soldier1.order_number < soldier2.order_number: 
+					return true
 		return false
 	
-func sort_army(): 
-	soldiers.sort_custom(MyCustomSorter, "sort_ascending")
+func sort_soldiers(): 
+	soldiers.sort_custom(SoldierSorter, "sort_ascending")
 
 func cycle_soldiers(): 
 	var i = 0

@@ -6,13 +6,13 @@ var armyB
 var attack_army
 var defend_army
 
-const base_speed = 0.2
+const base_time = 0.2
 
-const phase_clash_allowed_time = base_speed*2
-const phase_defend_allowed_time = base_speed*2
-const phase_stunned_allowed_time = base_speed*1
-const phase_cycle_allowed_time_if_alive = base_speed*1
-const phase_cycle_allowed_time_if_dead = base_speed*1
+const phase_clash_allowed_time = base_time*2
+const phase_defend_allowed_time = base_time*2
+const phase_stunned_allowed_time = base_time*1
+const phase_cycle_allowed_time_if_alive = base_time*1
+const phase_cycle_allowed_time_if_dead = base_time*1
 
 var time_to_next_phase = 0
 var is_attacker_ready = false
@@ -26,6 +26,7 @@ enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
 var state = State.OUT_OF_COMBAT
 
 func start_combat_with_armies(armyA_, armyB_):
+	randomize()
 	armyA = armyA_
 	armyB = armyB_
 	attack_army = armyA
@@ -155,16 +156,16 @@ func death_phase():
 func cycle_live_phase(): 
 	defend_army.set_all_soldiers_idle()
 	attack_army.set_all_soldiers_idle()
-	attack_army.sort_army()
-	defend_army.sort_army()
+	attack_army.sort_soldiers()
+	defend_army.sort_soldiers()
 	attack_army.cycle_soldiers()
 	defend_army.cycle_soldiers()
 
 func cycle_dead_phase(): 
 	defend_army.set_all_soldiers_idle()
 	attack_army.set_all_soldiers_idle()
-	defend_army.sort_army()
-	attack_army.sort_army() # THIS LINE CAUSES BUG I DON'T KNOW WHY
+	attack_army.sort_soldiers()
+	defend_army.sort_soldiers()
 	defend_army.cycle_soldiers()
-	attack_army.cycle_soldiers() # NEED THIS LINE OR WE GET BUG I DON'T KNOW WHY
+	attack_army.cycle_soldiers()
 
