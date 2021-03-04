@@ -1,6 +1,6 @@
 extends Node2D
 
-signal attack_ready
+signal attack_ready(soldier)
 
 const cycle_speed = 50
 const position_delta = 4 
@@ -46,7 +46,7 @@ func _process(delta):
 		position.x = expected_x_position
 		mini_phase = MiniPhase.REACH_LOCATION
 		if is_readying_attack:
-			emit_signal("attack_ready")
+			emit_signal("attack_ready", self)
 			is_readying_attack =false
 	
 	if mini_phase == MiniPhase.REPOSITION:
@@ -80,7 +80,6 @@ func take_stamina_damage(stamina_damage):
 	stamina -= stamina_damage
 	if stamina < 0: 
 		stamina = 0
-	print("New stamina for " + display_name + ": " + str(stamina))
 	$StaminaLabel.text = str(stamina)	
 
 func face_left(): 
@@ -167,9 +166,7 @@ func set_sprite_dead():
 	$StaminaLabel.visible = false
 	$HealthLabel.visible = false
 	var dirrandi = randi()
-	print("dirrandi: " + str(dirrandi))
 	var dir = randi()%2
-	print("dir: " + str(dir))
 	$SoldierSprite.flip_h = false
 	if dir == 0: 
 		$SoldierSprite.flip_h = true

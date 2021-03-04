@@ -14,10 +14,19 @@ func add_soldier(soldier):
 	soldiers.append(soldier)
 	$SoldierHolder.add_soldier(soldier)
 
-# TODO rename to cycle soldiers
-func move_soldier_to_back(): 
-	var front_soldier = soldiers.pop_front()
-	soldiers.append(front_soldier)
+# TODO sort this by moving the front guy to where he needs to be
+# rather than moving the whole army around.
+
+class MyCustomSorter:
+	static func sort_ascending(soldier1, soldier2):
+		if soldier1.hp > soldier2.hp: 
+			return true
+		if soldier1.stamina > soldier2.stamina:
+			return true
+		return false
+	
+func sort_army(): 
+	soldiers.sort_custom(MyCustomSorter, "sort_ascending")
 
 func cycle_soldiers(): 
 	var i = 0
@@ -44,7 +53,6 @@ func kill_front_soldier():
 	var front_soldier = soldiers.pop_front()
 	# TODO remove from the army locator - add it to main? 
 	front_soldier.set_sprite_dead()
-
 
 func set_location(new_location): 
 	$ArmyLocator.position = new_location

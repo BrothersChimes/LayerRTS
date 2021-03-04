@@ -20,7 +20,7 @@ var is_defender_ready = false
 
 enum Phase {READY_ATTACK, CLASH, DAMAGE_CHECK, DEFEND, DEATH, STUNNED, 
 	DAMAGE, CYCLE_LIVE, CYCLE_DEAD}
-var phase = Phase.READY_ATTACK
+var phase = Phase.CYCLE_LIVE
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
 var state = State.OUT_OF_COMBAT
@@ -31,6 +31,13 @@ func start_combat_with_armies(armyA_, armyB_):
 	attack_army = armyA
 	defend_army = armyB
 	state = State.COMBAT
+	register_all_soldiers()
+	
+func register_all_soldiers(): 
+	for soldier in armyA.soldiers: 
+		soldier.connect("attack_ready", self, "_on_soldier_attack_ready")
+	for soldier in armyB.soldiers: 
+		soldier.connect("attack_ready", self, "_on_soldier_attack_ready")
 
 func _process(delta):
 	if state == State.COMBAT:
@@ -57,7 +64,6 @@ func perform_combat_state_action(delta):
 				phase = Phase.DAMAGE_CHECK
 			Phase.DAMAGE_CHECK: 
 				var damaged_roll = randi()%100
-				print("Damaged roll: " + str(damaged_roll))
 				var defender = defend_army.front()
 				if damaged_roll >= defender.stamina: 
 					defender.take_hp_damage(1)
@@ -104,24 +110,22 @@ func perform_combat_state_action(delta):
 		time_to_next_phase -= delta
 		
 func ready_attack_phase(): 
+	# TODO I'm not sure this part is working correctly
 	var attacker = attack_army.front()
-	attacker.connect("attack_ready", self, "_on_attacker_attack_ready")
 	var defender = defend_army.front()
-	defender.connect("attack_ready", self, "_on_defender_attack_ready")
 	is_attacker_ready = false
 	is_defender_ready = false
 	attacker.ready_for_attack()
 	defender.ready_for_attack()
 	
-func _on_attacker_attack_ready(): 
-	is_attacker_ready = true
-	if is_defender_ready: 
-		phase = Phase.CLASH
+func _on_soldier_attack_ready(soldier):
+	if soldier == attack_army.front(): 
+		is_attacker_ready = true
+	if soldier == defend_army.front(): 
+		is_defender_ready = true
 
-func _on_defender_attack_ready(): 
-	is_defender_ready = true
-	if is_attacker_ready: 
-		phase = Phase.CLASH	
+	if is_attacker_ready and is_defender_ready: 
+		phase = Phase.CLASH
 	
 func clash_phase(): 
 	var attacker = attack_army.front()
@@ -142,25 +146,25 @@ func death_phase():
 	defend_army.kill_front_soldier()
 	attack_army.advance(1)
 	defend_army.retreat(1)
-	
 	if defend_army.size() == 0: 
 		attack_army.set_all_soldiers_idle()
 		phase = Phase.READY_ATTACK
 		state = State.END_COMBAT
 		return
-	
-	defender = defend_army.front()	
 
 func cycle_live_phase(): 
 	defend_army.set_all_soldiers_idle()
 	attack_army.set_all_soldiers_idle()
-	defend_army.move_soldier_to_back()
-	defend_army.cycle_soldiers()
+	attack_army.sort_army()
+	defend_army.sort_army()
 	attack_army.cycle_soldiers()
+	defend_army.cycle_soldiers()
 
 func cycle_dead_phase(): 
 	defend_army.set_all_soldiers_idle()
 	attack_army.set_all_soldiers_idle()
+	defend_army.sort_army()
+	attack_army.sort_army() # THIS LINE CAUSES BUG I DON'T KNOW WHY
 	defend_army.cycle_soldiers()
-	attack_army.cycle_soldiers()
+	attack_army.cycle_soldiers() # NEED THIS LINE OR WE GET BUG I DON'T KNOW WHY
 
