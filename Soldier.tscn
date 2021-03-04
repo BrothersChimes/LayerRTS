@@ -1,0 +1,179 @@
+[gd_scene load_steps=30 format=2]
+
+[ext_resource path="res://assets/soldier_attack_still.png" type="Texture" id=1]
+[ext_resource path="res://assets/soldier_idle_3.png" type="Texture" id=2]
+[ext_resource path="res://assets/soldier_defend_still.png" type="Texture" id=3]
+[ext_resource path="res://assets/soldier_dead.png" type="Texture" id=4]
+[ext_resource path="res://Soldier.gd" type="Script" id=5]
+[ext_resource path="res://assets/soldier_damaged_1.png" type="Texture" id=6]
+[ext_resource path="res://assets/soldier_attack_hurt_still.png" type="Texture" id=7]
+[ext_resource path="res://assets/soldier_defend_hurt_still.png" type="Texture" id=8]
+[ext_resource path="res://assets/soldier_idle_hurt_still.png" type="Texture" id=9]
+[ext_resource path="res://assets/soldier_damaged_hurt.png" type="Texture" id=10]
+[ext_resource path="res://assets/soldier_walk_1.png" type="Texture" id=11]
+[ext_resource path="res://assets/soldier_walk_hurt.png" type="Texture" id=12]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 11 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 11 )
+region = Rect2( 128, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 11 )
+region = Rect2( 0, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 12 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 12 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 12 )
+region = Rect2( 64, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 12 )
+region = Rect2( 128, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 128, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 12 )
+region = Rect2( 64, 128, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "defend",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "damaged_hurt",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "damaged",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "dead",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "idle_hurt",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "defend_hurt",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "attack_hurt",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"loop": true,
+"name": "walk_hurt",
+"speed": 5.0
+} ]
+
+[node name="Soldier" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="SoldierSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -0.594605, -1 )
+frames = SubResource( 9 )
+animation = "walk_hurt"
+playing = true
+
+[node name="NameLabel" type="Label" parent="."]
+margin_left = -35.0
+margin_top = -20.0
+margin_right = 36.0
+margin_bottom = -6.0
+text = "Name"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaminaLabel" type="Label" parent="."]
+margin_left = -20.8111
+margin_top = 34.7843
+margin_right = 19.1889
+margin_bottom = 48.7843
+text = "0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthLabel" type="Label" parent="."]
+margin_left = -20.5138
+margin_top = 51.1358
+margin_right = 19.4862
+margin_bottom = 65.1358
+text = "0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
