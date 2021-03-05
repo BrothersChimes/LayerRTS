@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ArmySim.gd" type="Script" id=1]
 [ext_resource path="res://ArmyCreator.gd" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://CameraController.gd" type="Script" id=4]
 [ext_resource path="res://assets/TilesNonSliced.png" type="Texture" id=5]
 [ext_resource path="res://assets/battle-background-sunny-hillsx1.png" type="Texture" id=6]
+[ext_resource path="res://assets/Tent.png" type="Texture" id=7]
+[ext_resource path="res://assets/Tent_glow_lantern.png" type="Texture" id=8]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TilesNonSliced.png 0"
@@ -261,3 +263,17 @@ z_index = -10
 texture = ExtResource( 6 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 1000, 208 )
+
+[node name="Objective_left" type="Node2D" parent="."]
+position = Vector2( -432, 118 )
+z_index = -10
+
+[node name="Tent" type="Sprite" parent="Objective_left"]
+texture = ExtResource( 7 )
+
+[node name="Objective_right" type="Node2D" parent="."]
+position = Vector2( 1356.43, 118 )
+z_index = -10
+
+[node name="Tent_glow_lantern" type="Sprite" parent="Objective_right"]
+texture = ExtResource( 8 )
