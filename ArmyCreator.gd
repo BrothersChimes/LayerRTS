@@ -3,7 +3,7 @@ extends Node
 const Soldier = preload("Soldier.tscn")
 const Army = preload("Army.tscn")
 
-const army_height = 128
+const army_height = 132
 const distance_between_soldiers = 32
 
 const armyAxPos = 400
