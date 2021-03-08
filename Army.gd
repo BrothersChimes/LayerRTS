@@ -58,6 +58,9 @@ func kill_front_soldier():
 	# TODO remove from the army locator - add it to main? 
 	front_soldier.set_sprite_dead()
 
+func set_x_location(new_x_location): 
+	$ArmyLocator.position.x = new_x_location
+
 func set_location(new_location): 
 	$ArmyLocator.position = new_location
 
