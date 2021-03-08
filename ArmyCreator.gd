@@ -31,7 +31,11 @@ func create_soldiers_for_test():
 	create_soldier_A(100,2)
 	create_soldier_A(100,2)
 	create_soldier_A(100,2)
-	
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+		
 	armyB.display_name = "Army B"
 	armyB.distance_between_soldiers = distance_between_soldiers
 	armyB.set_location(Vector2(armyBxIntendedPos, army_height))
@@ -41,7 +45,11 @@ func create_soldiers_for_test():
 	create_soldier_B(100,2)
 	create_soldier_B(100,2) 
 	create_soldier_B(100,2)
-	
+	create_soldier_B(100,2)
+	create_soldier_B(100,2)
+	create_soldier_B(100,2) 
+	create_soldier_B(100,2)
+		
 	return [armyA, armyB]
 
 func create_soldier_A(stamina, hp): 
