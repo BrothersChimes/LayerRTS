@@ -3,6 +3,11 @@ extends Node2D
 const distance_between_soldiers = 32
 var armies = []
 
+var combat_distance = 128
+
+enum Status {MARCH, COMBAT}
+var status = Status.MARCH
+
 func _input(event):
 	# Mouse in viewport coordinates.
 	if event is InputEventMouseButton:
@@ -12,9 +17,17 @@ func _input(event):
 
 func _ready():
 	march_to_combat_sim()
+
+func _process(delta): 
+	if status == Status.MARCH: 
+		if armies.size() == 2: 
+			if abs(armies[0].x_position() - armies[1].x_position()) < combat_distance:
+				armies[1].set_x_position(armies[0].x_position() + distance_between_soldiers) 
+				status = Status.COMBAT
+				$ArmyCombatSim.start_combat_with_armies(armies[0], armies[1])
+
 	
-func march_to_combat_sim(): 
-	var armyCombatSim = $ArmyCombatSim
+func march_to_combat_sim():
 	var armyCreator = $ArmyCreator
 	armyCreator.distance_between_soldiers = distance_between_soldiers
 	armyCreator.armyAxSpawnPos = $SoldierSpawnerLeft.position.x
@@ -28,7 +41,6 @@ func march_to_combat_sim():
 	add_child(armies[1])
 
 func march_sim(): 
-	var armyCombatSim = $ArmyCombatSim
 	var armyCreator = $ArmyCreator
 	armyCreator.distance_between_soldiers = distance_between_soldiers
 	armyCreator.armyAxSpawnPos = $SoldierSpawnerLeft.position.x
@@ -37,6 +49,7 @@ func march_sim():
 	add_child(armies[0])
 	
 func combat_sim(): 
+	status = Status.COMBAT
 	var armyCombatSim = $ArmyCombatSim
 	var armyCreator = $ArmyCreator
 	armyCreator.distance_between_soldiers = distance_between_soldiers

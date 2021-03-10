@@ -38,6 +38,12 @@ func _process(delta):
 			stop_soldiers()
 			# mini_phase = MiniPhase.REACH_LOCATION
 
+func x_position(): 
+	return $ArmyLocator.position.x
+
+func set_x_position(new_x_position): 
+	$ArmyLocator.position.x = new_x_position
+
 # Should only be done once with any given soldier
 func add_soldier(soldier): 
 	soldiers.append(soldier)
