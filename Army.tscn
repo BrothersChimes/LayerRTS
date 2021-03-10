@@ -13,7 +13,6 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="skeleton_attack_still" type="Sprite" parent="ArmyLocator"]
-visible = false
 z_index = 5
 texture = ExtResource( 3 )
 
@@ -33,7 +32,6 @@ __meta__ = {
 script = ExtResource( 4 )
 
 [node name="skeleton_dead" type="Sprite" parent="SoldierHolder"]
-visible = false
 position = Vector2( -3.0645, -27.7228 )
 z_index = 5
 texture = ExtResource( 5 )

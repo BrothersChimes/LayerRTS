@@ -17,6 +17,42 @@ var armyB
 var army_a_number = 1
 var army_b_number = 1
 
+func create_soldiers_for_march_to_combat_test(): 
+	armyA = Army.instance()
+	armyB = Army.instance()
+	var soldier
+	
+	armyA.display_name = "Army A"
+	armyA.distance_between_soldiers = distance_between_soldiers
+	armyA.set_location(Vector2(armyAxIntendedPos, army_height))
+	armyA.is_facing_right = true
+	
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+		
+	armyB.display_name = "Army B"
+	armyB.distance_between_soldiers = distance_between_soldiers
+	armyB.set_location(Vector2(armyBxIntendedPos, army_height))
+	armyB.is_facing_right = false
+	
+	create_soldier_B(100,2)
+	create_soldier_B(100,2)
+	create_soldier_B(100,2) 
+	create_soldier_B(100,2)
+	create_soldier_B(100,2)
+	create_soldier_B(100,2)
+	create_soldier_B(100,2) 
+	create_soldier_B(100,2)
+		
+	return [armyA, armyB]
+
+	
 func create_soldiers_for_march_test(): 
 	armyA = Army.instance()
 	var soldier
@@ -35,7 +71,7 @@ func create_soldiers_for_march_test():
 	create_soldier_A(100,2)
 	create_soldier_A(100,2)
 	
-	return armyA
+	return [armyA]
 
 func create_soldiers_for_combat_test(): 
 	armyA = Army.instance()
