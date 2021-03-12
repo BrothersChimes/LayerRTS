@@ -31,6 +31,8 @@ func start_combat_with_armies(armyA_, armyB_):
 	armyB = armyB_
 	attack_army = armyA
 	defend_army = armyB
+	armyA.start_combat()
+	armyB.start_combat()
 	state = State.COMBAT
 	register_all_soldiers()
 	
