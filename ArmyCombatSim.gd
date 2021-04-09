@@ -55,11 +55,15 @@ func switch_attacker():
 
 func perform_end_combat_state_action(): 
 	state = State.OUT_OF_COMBAT
+	# TODO You need to figure out which army died and get rid of them? 
+	armyA.end_combat()
+	armyB.end_combat()
 	# TODO This is a big hack
-	armyA.set_x_location(1000)
-	armyB.set_x_location(-1000)
-	armyA.cycle_soldiers()
-	armyB.cycle_soldiers()
+#	armyA.set_x_location(1000)
+#	armyB.set_x_location(-1000)
+#	armyA.cycle_soldiers()
+#	armyB.cycle_soldiers()
+	
 
 func perform_combat_state_action(delta): 
 	if time_to_next_phase <= 0:

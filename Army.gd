@@ -54,6 +54,14 @@ func start_combat():
 	for soldier in soldiers: 
 		soldier.start_combat()
 
+func end_combat(): 
+	if soldiers.size == 0: 
+		queue_free()
+	status = Status.MARCH
+	for soldier in soldiers: 
+		soldier.end_combat()
+
+	
 # TODO sort this by moving the front guy to where he needs to be
 # rather than moving the whole army around?
 

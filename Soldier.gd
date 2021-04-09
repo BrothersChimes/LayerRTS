@@ -122,6 +122,9 @@ func process_combat(delta):
 func start_combat(): 
 	phase = Phase.COMBAT
 
+func end_combat(): 
+	phase = Phase.MARCH
+
 func stopped_at(x_position, is_marching_left_): 
 	$SoldierSprite.speed_scale = 2
 	if hp <= 1: 
