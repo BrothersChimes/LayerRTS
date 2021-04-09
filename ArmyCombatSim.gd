@@ -65,24 +65,6 @@ func calculate_whether_damaged():
 	if defended_roll < defender.stamina: 
 		return false
 	return true
-	
-func calculate_whether_damaged_TEST_algo(): 
-	var defender = defend_army.front()
-	var attacker = attack_army.front()
-	var total = defender.stamina + attacker.stamina
-	print("DEF: " + str(defender.stamina) + " ATT: " + str(attacker.stamina) 
-		+ " TOT: " + str(total))
-	var defender_percentage
-	if total == 0:
-		defender_percentage = 50
-	else: 
-		defender_percentage = (defender.stamina * 100) / total
-	print("DEFENDER PERCENTAGE: " + str(defender_percentage))
-	var defended_roll = randi()%100
-	print("DEFENDED ROLL: " + str(defended_roll))
-	if defended_roll < defender_percentage: 
-		return false
-	return true
 		
 func perform_combat_state_action(delta): 
 	if time_to_next_phase <= 0:
