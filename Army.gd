@@ -1,5 +1,7 @@
 extends Node
 
+signal army_removed(army) 
+
 var soldiers = []
 var display_name = "display name"
 var distance_between_soldiers = 0
@@ -55,13 +57,15 @@ func start_combat():
 		soldier.start_combat()
 
 func end_combat(): 
-	if soldiers.size == 0: 
-		queue_free()
+	if soldiers.size() == 0: 
+		remove_army()
 	status = Status.MARCH
 	for soldier in soldiers: 
 		soldier.end_combat()
 
-	
+func remove_army(): 
+	queue_free()
+	emit_signal("army_removed", self)
 # TODO sort this by moving the front guy to where he needs to be
 # rather than moving the whole army around?
 
