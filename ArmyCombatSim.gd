@@ -58,13 +58,32 @@ func perform_end_combat_state_action():
 	# TODO You need to figure out which army died and get rid of them? 
 	armyA.end_combat()
 	armyB.end_combat()
-	# TODO This is a big hack
-#	armyA.set_x_location(1000)
-#	armyB.set_x_location(-1000)
-#	armyA.cycle_soldiers()
-#	armyB.cycle_soldiers()
 	
-
+func calculate_whether_damaged(): 
+	var defender = defend_army.front()
+	var defended_roll = randi()%100
+	if defended_roll < defender.stamina: 
+		return false
+	return true
+	
+func calculate_whether_damaged_TEST_algo(): 
+	var defender = defend_army.front()
+	var attacker = attack_army.front()
+	var total = defender.stamina + attacker.stamina
+	print("DEF: " + str(defender.stamina) + " ATT: " + str(attacker.stamina) 
+		+ " TOT: " + str(total))
+	var defender_percentage
+	if total == 0:
+		defender_percentage = 50
+	else: 
+		defender_percentage = (defender.stamina * 100) / total
+	print("DEFENDER PERCENTAGE: " + str(defender_percentage))
+	var defended_roll = randi()%100
+	print("DEFENDED ROLL: " + str(defended_roll))
+	if defended_roll < defender_percentage: 
+		return false
+	return true
+		
 func perform_combat_state_action(delta): 
 	if time_to_next_phase <= 0:
 		match(phase): 
@@ -75,9 +94,8 @@ func perform_combat_state_action(delta):
 				time_to_next_phase = phase_clash_allowed_time
 				phase = Phase.DAMAGE_CHECK
 			Phase.DAMAGE_CHECK: 
-				var damaged_roll = randi()%100
 				var defender = defend_army.front()
-				if damaged_roll >= defender.stamina: 
+				if calculate_whether_damaged(): 
 					defender.take_hp_damage(1)
 					phase = Phase.DAMAGE
 				else: 

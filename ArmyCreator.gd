@@ -28,13 +28,13 @@ func create_soldiers_for_march_to_combat_test():
 	armyA.is_facing_right = true
 	
 	create_soldier_A(30,2)
-#	create_soldier_A(100,2)
-#	create_soldier_A(100,2)
-#	create_soldier_A(100,2)
-#	create_soldier_A(100,2)
-#	create_soldier_A(100,2)
-#	create_soldier_A(100,2)
-#	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
+	create_soldier_A(100,2)
 		
 	armyB.display_name = "Army B"
 	armyB.distance_between_soldiers = distance_between_soldiers
@@ -42,13 +42,13 @@ func create_soldiers_for_march_to_combat_test():
 	armyB.is_facing_right = false
 	
 	create_soldier_B(30,2)
-#	create_soldier_B(100,2)
-#	create_soldier_B(100,2) 
-#	create_soldier_B(100,2)
-#	create_soldier_B(100,2)
-#	create_soldier_B(100,2)
-#	create_soldier_B(100,2) 
-#	create_soldier_B(100,2)
+	create_soldier_B(100,2)
+	create_soldier_B(100,2) 
+	create_soldier_B(100,2)
+	create_soldier_B(100,2)
+	create_soldier_B(100,2)
+	create_soldier_B(100,2) 
+	create_soldier_B(100,2)
 		
 	return [armyA, armyB]
 
