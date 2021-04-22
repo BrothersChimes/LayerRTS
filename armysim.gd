@@ -23,9 +23,19 @@ func _ready():
 func _process(delta): 
 	if status == Status.MARCH: 
 		if armies.size() == 2: 
-			if abs(armies[0].x_position() - armies[1].x_position()) < combat_distance:
-				armies[1].set_x_position(armies[0].x_position() + distance_between_soldiers) 
+			var armyA = armies[0]
+			var armyB = armies[1]
+			var armyAx = armyA.x_position()
+			var armyBx = armyB.x_position()
+			if abs(armyAx - armyBx) < combat_distance:
+				armyB.set_x_position(armyAx + distance_between_soldiers) 
 				status = Status.COMBAT
+				if armyAx < armyBx: 
+					armyA.is_facing_right = true
+					armyB.is_facing_right = false
+				else: 
+					armyA.is_facing_right = false
+					armyB.is_facing_right = true					
 				$ArmyCombatSim.start_combat_with_armies(armies[0], armies[1])
 
 
