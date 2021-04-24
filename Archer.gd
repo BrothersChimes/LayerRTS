@@ -1,6 +1,7 @@
 extends Node2D
 
 signal attack_ready(soldier)
+signal archery_ready()
 
 const SoldierType = preload("SoldierType.gd").SoldierType
 
@@ -25,6 +26,7 @@ var walk_speed = 0
 var intended_anim = "idle"
 
 var is_readying_attack = false
+var is_readying_archery = false
 
 enum Phase {COMBAT, MARCH, DEAD} 
 var phase = Phase.MARCH
@@ -39,6 +41,7 @@ func _ready():
 	$NameLabel.text = display_name
 	$StaminaLabel.text = str(stamina)
 	$HealthLabel.text = str(hp)
+	$ArcherSprite.connect("animation_finished", self, "_on_ArcherSprite_anim_finished")
 	
 func _process(delta): 
 	if phase == Phase.DEAD:
@@ -50,6 +53,10 @@ func _process(delta):
 
 	if phase == Phase.COMBAT:
 		process_combat(delta)
+				
+func _on_ArcherSprite_anim_finished(): 
+	if $ArcherSprite.animation == "attack" or $ArcherSprite.animation == "attack_hurt":
+		set_sprite_idle()
 
 func process_march(delta): 
 	walk_speed = clamp(abs(position.x - expected_x_position_march)/75+1,2,4)
@@ -106,7 +113,10 @@ func process_combat(delta):
 		if is_readying_attack:
 			emit_signal("attack_ready", self)
 			is_readying_attack =false
-	
+		if is_readying_archery:
+			emit_signal("archery_ready", self)
+			is_readying_archery =false
+			
 	if mini_phase == MiniPhase.REPOSITION:
 		$ArcherSprite.speed_scale = walk_speed
 		if hp <= 1: 
@@ -152,6 +162,9 @@ func marched_to(x_position, is_marching_left_):
 			
 func ready_for_attack(): 
 	is_readying_attack = true
+
+func ready_for_archery(): 
+	is_readying_archery = true
 
 func set_intended_anim(new_intended_anim): 
 	intended_anim = new_intended_anim

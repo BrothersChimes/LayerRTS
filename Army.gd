@@ -121,6 +121,25 @@ func set_all_soldiers_idle():
 	for soldier in soldiers: 
 		soldier.set_sprite_idle()
 
+func set_all_melee_soldiers_idle(): 
+	var i = 0
+	for soldier in soldiers: 
+		if i == 0: 
+			i += 1
+			soldier.set_sprite_idle()
+			continue
+		if soldier.soldier_type == SoldierType.MELEE: 
+			soldier.set_sprite_idle()
+
+func set_all_ranged_soldiers_idle(): 
+	var i = 0
+	for soldier in soldiers: 
+		if i == 0: 
+			i += 1
+			continue
+		if soldier.soldier_type == SoldierType.RANGED: 
+			soldier.set_sprite_idle()
+			
 func size(): 
 	return soldiers.size()
 

@@ -48,7 +48,7 @@ func march_to_combat_sim():
 	armyCreator.armyAxSpawnPos = $SoldierSpawnerLeft.position.x
 	armyCreator.armyAxIntendedPos = armyCreator.armyAxSpawnPos
 	
-	armyCreator.armyBxSpawnPos = 1000
+	armyCreator.armyBxSpawnPos = 400
 	armyCreator.armyBxIntendedPos = armyCreator.armyBxSpawnPos + distance_between_soldiers
 	
 	armies = armyCreator.create_soldiers_for_march_to_combat_test()
