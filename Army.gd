@@ -31,14 +31,9 @@ func _process(delta):
 			$ArmyLocator.position.x += delta*march_speed
 			is_facing_right = true
 			march_soldiers()
-	#		for soldier in soldiers:
-	#			soldier.reposition()
-			# mini_phase = MiniPhase.REPOSITION
-			# is_walk_backwards = is_facing_left
 		else: 
 			$ArmyLocator.position.x = objective_x_position
 			stop_soldiers()
-			# mini_phase = MiniPhase.REACH_LOCATION
 
 func x_position(): 
 	return $ArmyLocator.position.x
