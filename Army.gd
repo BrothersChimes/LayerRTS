@@ -5,6 +5,7 @@ signal army_removed(army)
 var soldiers = []
 var display_name = "display name"
 var distance_between_soldiers = 0
+const SoldierType = preload("SoldierType.gd").SoldierType
 
 var is_facing_right = true
 
@@ -66,6 +67,10 @@ func remove_army():
 
 class SoldierSorter:
 	static func sort_ascending(soldier1, soldier2):
+		if soldier1.soldier_type == SoldierType.MELEE and soldier2.soldier_type == SoldierType.RANGED:
+			return true
+		if soldier2.soldier_type == SoldierType.MELEE and soldier1.soldier_type == SoldierType.RANGED:
+			return false
 		if soldier1.stamina > soldier2.stamina: 
 			return true
 		elif soldier1.stamina == soldier2.stamina: 

@@ -36,9 +36,14 @@ func create_soldiers_for_march_to_combat_test():
 #	create_soldier_A(100,2)
 #	create_soldier_A(100,2)
 #	create_soldier_A(100,2)
+
 	create_archer_A(80,2)
+	create_archer_A(100,2)
+	create_soldier_A(40,2)
+	create_soldier_A(80,2)
 	create_archer_A(80,2)
-	create_archer_A(80,2)
+	create_archer_A(60,2)
+	create_soldier_A(100,2)
 	create_archer_A(80,2)
 		
 	armyB.display_name = "Army B"
@@ -47,8 +52,11 @@ func create_soldiers_for_march_to_combat_test():
 	armyB.is_facing_right = false
 	
 	create_soldier_B(30,2)
+	create_soldier_B(30,2)
+	create_archer_B(30,2)
+	create_soldier_B(30,2)
 	create_soldier_B(60,2)
-	create_soldier_B(70,2) 
+	create_archer_B(70,2) 
 	create_soldier_B(100,2)
 #	create_soldier_B(100,2)
 #	create_soldier_B(100,2)

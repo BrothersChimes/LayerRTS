@@ -2,10 +2,12 @@ extends Node2D
 
 signal attack_ready(soldier)
 
+const SoldierType = preload("SoldierType.gd").SoldierType
+
 const cycle_speed = 50
 const position_delta = 4 
 # var a = 2
-
+var soldier_type = SoldierType.RANGED
 var hp = 0
 var stamina = 100
 var order_number = 0
