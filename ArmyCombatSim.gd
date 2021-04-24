@@ -5,8 +5,6 @@ var armyB
 
 var attack_army
 var defend_army
-var attack_archers
-var defend_archers
 
 const base_time = 0.2
 
@@ -24,6 +22,9 @@ var is_attacker_ready = false
 var is_defender_ready = false
 var archers_waiting = 0
 
+var attack_archers
+var defend_archers
+
 enum BigPhase {CYCLE_LIVE, ATTACKS, CYCLE_DEAD}
 var big_phase = BigPhase.CYCLE_LIVE
 
@@ -33,7 +34,6 @@ var melee_phase = MeleePhase.READY_ATTACK
 
 enum RangedPhase {READY_ARCHERY, AWAIT_LOOSE, LOOSE, CYCLE_DEAD, CYCLE_LIVE} 
 var ranged_phase  = RangedPhase.READY_ARCHERY
-
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
 var state = State.OUT_OF_COMBAT
@@ -243,34 +243,35 @@ func perform_ranged_combat_state_action(delta):
 
 func _on_soldier_archery_ready(soldier):
 	archers_waiting = archers_waiting - 1
-	print("archers waiting: " + str(archers_waiting))
 	if archers_waiting == 0: 
 		ranged_phase = RangedPhase.LOOSE
 	
 func ready_archery_phase(): 
+	if attack_archers.size() <= 1: 
+		ranged_phase = RangedPhase.CYCLE_LIVE
 	var i = 0
-	for soldier in attack_army.soldiers:
+	for soldier in attack_archers.soldiers:
 		if i == 0:
 			i = i + 1
 			continue
 		if soldier.soldier_type == SoldierType.RANGED: 
 			archers_waiting = archers_waiting+1
-			print("ready_archery_phase archers_waiting " + str(archers_waiting))
 			soldier.ready_for_archery()
 	ranged_phase = RangedPhase.AWAIT_LOOSE
 			
 func loose_phase(): 
-	print("LOOSE")
 	var i = 0
-	for soldier in attack_army.soldiers:
+	for soldier in attack_archers.soldiers:
 		if i == 0:
 			i = i+1
 			continue
 		if soldier.soldier_type == SoldierType.RANGED: 
-			print("setting soldier: " + str(soldier.display_name) + " to attack")
 			soldier.set_sprite_attack() 
 
 func switch_archers(): 	
+	print("Switching archers")
 	var temp = defend_archers
 	defend_archers = attack_archers
 	attack_archers = temp
+	print("Attack archers: " + attack_archers.display_name)
+	print("Defend archers: " + defend_archers.display_name)
