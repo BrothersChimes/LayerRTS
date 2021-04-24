@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://ArmySim.gd" type="Script" id=1]
 [ext_resource path="res://ArmyCreator.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://assets/battle-background-sunny-hillsx1.png" type="Texture" id=6]
 [ext_resource path="res://assets/Tent.png" type="Texture" id=7]
 [ext_resource path="res://assets/Tent_glow_lantern.png" type="Texture" id=8]
+[ext_resource path="res://DEBUG_CURSOR.gd" type="Script" id=9]
+[ext_resource path="res://assets/pig.png" type="Texture" id=10]
 
 [sub_resource type="TileSet" id=1]
 0/name = "TilesNonSliced.png 0"
@@ -236,6 +238,12 @@ script = ExtResource( 2 )
 
 [node name="SoldierSpawnerLeft" type="Node2D" parent="ArmySim"]
 position = Vector2( -432, 118 )
+
+[node name="DEBUG_CURSOR" type="Node2D" parent="ArmySim"]
+script = ExtResource( 9 )
+
+[node name="pig" type="Sprite" parent="ArmySim/DEBUG_CURSOR"]
+texture = ExtResource( 10 )
 
 [node name="CameraController" type="Node2D" parent="."]
 script = ExtResource( 4 )

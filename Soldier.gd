@@ -10,10 +10,12 @@ var stamina = 100
 var order_number = 0
 var display_name = "display name"
 var expected_x_position = 0
+var expected_x_position_march = 0
 var small_offset = 5
 var large_offset = 10
 
 var is_facing_left = false
+var is_marching_left = false
 var is_walk_backwards = false
 var walk_speed = 0
 
@@ -21,10 +23,12 @@ var intended_anim = "idle"
 
 var is_readying_attack = false
 
-enum Phase {COMBAT, MARCH} 
+enum Phase {COMBAT, MARCH, DEAD} 
 var phase = Phase.MARCH
 
-enum MiniPhase {REPOSITION, REACH_LOCATION, DEAD}
+var is_march_reach = false
+
+enum MiniPhase {REPOSITION, REACH_LOCATION}
 var mini_phase = MiniPhase.REPOSITION
 
 # Called when the node enters the scene tree for the first time.
@@ -34,9 +38,56 @@ func _ready():
 	$HealthLabel.text = str(hp)
 	
 func _process(delta): 
-	if mini_phase == MiniPhase.DEAD or phase == Phase.MARCH:
+	if phase == Phase.DEAD:
 		return
-	# TODO Only do this if you are alive and idle or whatever
+		
+	if phase == Phase.MARCH: 
+		process_march(delta)
+		return
+
+	if phase == Phase.COMBAT:
+		process_combat(delta)
+
+func process_march(delta): 
+	walk_speed = clamp(abs(position.x - expected_x_position_march)/75+1,2,4)
+	if position.x - expected_x_position_march > position_delta: 
+		position.x -= delta*cycle_speed*walk_speed
+		reposition()
+		is_walk_backwards = not is_facing_left
+	elif expected_x_position_march - position.x > position_delta:
+		position.x += delta*cycle_speed*walk_speed
+		reposition()
+		is_walk_backwards = is_facing_left
+	else: 
+		position.x = expected_x_position_march
+		mini_phase = MiniPhase.REACH_LOCATION
+
+	if mini_phase == MiniPhase.REPOSITION:
+		$SoldierSprite.speed_scale = walk_speed
+		if hp <= 1: 
+			$SoldierSprite.play("walk_hurt")
+		else: 
+			$SoldierSprite.play("walk")
+		if is_walk_backwards:
+			$SoldierSprite.flip_h = not is_facing_left
+		else: 
+			$SoldierSprite.flip_h = is_facing_left
+	elif mini_phase == MiniPhase.REACH_LOCATION:
+		$SoldierSprite.flip_h = is_marching_left
+		if is_march_reach: 
+			if hp <= 1: 
+				$SoldierSprite.play("idle_hurt")
+			else: 
+				$SoldierSprite.play("idle")
+		else: 
+			$SoldierSprite.speed_scale = 2
+			if hp <= 1: 
+				$SoldierSprite.play("walk_hurt")
+			else: 
+				$SoldierSprite.play("walk")
+
+	
+func process_combat(delta): 
 	walk_speed = clamp(abs(position.x - expected_x_position)/75+1,2,4)
 	if position.x - expected_x_position > position_delta: 
 		position.x -= delta*cycle_speed*walk_speed
@@ -71,23 +122,30 @@ func _process(delta):
 func start_combat(): 
 	phase = Phase.COMBAT
 
-func stopped_at(x_position, is_facing_left): 
-	$SoldierSprite.speed_scale = 2
-	if hp <= 1: 
-		$SoldierSprite.play("idle_hurt")
-	else: 
-		$SoldierSprite.play("idle")
-	position.x = x_position
-	$SoldierSprite.flip_h = is_facing_left
+func end_combat(): 
+	phase = Phase.MARCH
 
-func marched_to(x_position, is_facing_left): 
+func stopped_at(x_position, is_marching_left_): 
 	$SoldierSprite.speed_scale = 2
 	if hp <= 1: 
 		$SoldierSprite.play("walk_hurt")
 	else: 
 		$SoldierSprite.play("walk")
-	position.x = x_position
-	$SoldierSprite.flip_h = is_facing_left
+	# position.x = x_position
+	is_march_reach = true
+	expected_x_position_march = x_position
+	is_marching_left = is_marching_left_
+
+func marched_to(x_position, is_marching_left_): 
+	$SoldierSprite.speed_scale = 2
+	if hp <= 1: 
+		$SoldierSprite.play("walk_hurt")
+	else: 
+		$SoldierSprite.play("walk")
+	# position.x = x_position
+	is_march_reach = false
+	expected_x_position_march = x_position
+	is_marching_left = is_marching_left_
 			
 func ready_for_attack(): 
 	is_readying_attack = true
@@ -184,7 +242,7 @@ func set_sprite_move_back_offset(offset):
 		$SoldierSprite.position.x = -offset	
 	
 func set_sprite_dead(): 
-	mini_phase = MiniPhase.DEAD
+	phase = Phase.DEAD
 	# set_intended_anim("dead")
 	$SoldierSprite.play("dead")
 	$NameLabel.visible = false

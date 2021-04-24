@@ -1,5 +1,7 @@
 extends Node2D
 
+const Army = preload("Army.tscn")
+
 const distance_between_soldiers = 32
 var armies = []
 
@@ -21,11 +23,24 @@ func _ready():
 func _process(delta): 
 	if status == Status.MARCH: 
 		if armies.size() == 2: 
-			if abs(armies[0].x_position() - armies[1].x_position()) < combat_distance:
-				armies[1].set_x_position(armies[0].x_position() + distance_between_soldiers) 
+			var armyA = armies[0]
+			var armyB = armies[1]
+			var armyAx = armyA.x_position()
+			var armyBx = armyB.x_position()
+			if abs(armyAx - armyBx) < combat_distance:
+				armyB.set_x_position(armyAx + distance_between_soldiers) 
 				status = Status.COMBAT
+				if armyAx < armyBx: 
+					armyA.is_facing_right = true
+					armyB.is_facing_right = false
+				else: 
+					armyA.is_facing_right = false
+					armyB.is_facing_right = true					
 				$ArmyCombatSim.start_combat_with_armies(armies[0], armies[1])
 
+
+func _on_army_removed(army): 
+	armies.remove(armies.rfind(army))
 	
 func march_to_combat_sim():
 	var armyCreator = $ArmyCreator
@@ -37,8 +52,8 @@ func march_to_combat_sim():
 	armyCreator.armyBxIntendedPos = armyCreator.armyBxSpawnPos + distance_between_soldiers
 	
 	armies = armyCreator.create_soldiers_for_march_to_combat_test()
-	add_child(armies[0])
-	add_child(armies[1])
+	add_army(armies[0])
+	add_army(armies[1])
 
 func march_sim(): 
 	var armyCreator = $ArmyCreator
@@ -46,7 +61,7 @@ func march_sim():
 	armyCreator.armyAxSpawnPos = $SoldierSpawnerLeft.position.x
 	armyCreator.armyAxIntendedPos = armyCreator.armyAxSpawnPos
 	armies = armyCreator.create_soldiers_for_march_test() 
-	add_child(armies[0])
+	add_army(armies[0])
 	
 func combat_sim(): 
 	status = Status.COMBAT
@@ -58,6 +73,11 @@ func combat_sim():
 	armyCreator.armyAxIntendedPos = 400
 	armyCreator.armyBxIntendedPos = armyCreator.armyAxIntendedPos + distance_between_soldiers
 	armies = armyCreator.create_soldiers_for_combat_test() 
-	add_child(armies[0])
-	add_child(armies[1])
+	add_army(armies[0])
+	add_army(armies[1])
 	armyCombatSim.start_combat_with_armies(armies[0], armies[1])
+
+func add_army(army): 
+	add_child(army)
+	army.connect("army_removed", self, "_on_army_removed")
+

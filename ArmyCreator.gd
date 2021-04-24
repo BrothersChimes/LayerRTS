@@ -27,7 +27,7 @@ func create_soldiers_for_march_to_combat_test():
 	armyA.set_location(Vector2(armyAxIntendedPos, army_height))
 	armyA.is_facing_right = true
 	
-	create_soldier_A(100,2)
+	create_soldier_A(30,2)
 	create_soldier_A(100,2)
 	create_soldier_A(100,2)
 	create_soldier_A(100,2)
@@ -41,7 +41,7 @@ func create_soldiers_for_march_to_combat_test():
 	armyB.set_location(Vector2(armyBxIntendedPos, army_height))
 	armyB.is_facing_right = false
 	
-	create_soldier_B(100,2)
+	create_soldier_B(30,2)
 	create_soldier_B(100,2)
 	create_soldier_B(100,2) 
 	create_soldier_B(100,2)
