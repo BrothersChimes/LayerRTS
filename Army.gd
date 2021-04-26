@@ -120,7 +120,7 @@ func cycle_soldiers():
 func set_all_soldiers_idle(): 
 	for soldier in soldiers: 
 		soldier.set_sprite_idle()
-
+		
 func set_all_melee_soldiers_idle(): 
 	var i = 0
 	for soldier in soldiers: 
@@ -145,6 +145,11 @@ func size():
 
 func front(): 
 	return soldiers.front()
+
+func kill_soldier_at(location):
+	var soldier_at_location = soldiers[location]
+	soldiers.remove(location)
+	soldier_at_location.set_sprite_dead()
 
 func kill_front_soldier(): 
 	var front_soldier = soldiers.pop_front()

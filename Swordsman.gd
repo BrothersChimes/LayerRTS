@@ -198,6 +198,14 @@ func set_sprite_idle():
 	else: 
 		set_intended_anim("idle")
 		
+func set_sprite_defend_idle(): 
+	set_sprite_center()
+	$SoldierSprite.z_index = 0
+	if hp <= 1: 
+		set_intended_anim("idle_hurt")
+	else: 
+		set_intended_anim("idle")
+				
 func set_sprite_damaged(): 
 	$SoldierSprite.z_index = 0
 	if hp <= 0: 

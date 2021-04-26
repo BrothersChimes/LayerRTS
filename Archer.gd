@@ -55,8 +55,11 @@ func _process(delta):
 		process_combat(delta)
 				
 func _on_ArcherSprite_anim_finished(): 
-	if $ArcherSprite.animation == "attack" or $ArcherSprite.animation == "attack_hurt":
+	if $ArcherSprite.animation == "loose" or $ArcherSprite.animation == "loose_hurt":
 		set_sprite_idle()
+	if $ArcherSprite.animation == "attack" or $ArcherSprite.animation == "attack_hurt":
+		set_sprite_defend_idle()
+		
 
 func process_march(delta): 
 	walk_speed = clamp(abs(position.x - expected_x_position_march)/75+1,2,4)
@@ -190,11 +193,19 @@ func face_right():
 	$ArcherSprite.flip_h = false
 
 func set_sprite_attack(): 
+	set_sprite_attack_move_in()
+#	$ArcherSprite.z_index = -1
+#	if hp <= 1: 
+#		set_intended_anim("attack_hurt")
+#	else:
+#		set_intended_anim("attack")
+
+func set_sprite_loose(): 
 	$ArcherSprite.z_index = -1
 	if hp <= 1: 
-		set_intended_anim("attack_hurt")
+		set_intended_anim("loose_hurt")
 	else:
-		set_intended_anim("attack")
+		set_intended_anim("loose")
 
 func set_sprite_attack_move_in(): 
 	set_sprite_move_in_offset(large_offset)
@@ -212,6 +223,14 @@ func set_sprite_idle():
 	else: 
 		set_intended_anim("idle")
 		
+func set_sprite_defend_idle(): 
+	set_sprite_center()
+	$ArcherSprite.z_index = 0
+	if hp <= 1: 
+		set_intended_anim("idle_defend_hurt")
+	else: 
+		set_intended_anim("idle_defend")
+		
 func set_sprite_damaged(): 
 	$ArcherSprite.z_index = 0
 	if hp <= 0: 
@@ -227,9 +246,9 @@ func set_sprite_attack_defend():
 	else: 
 		$ArcherSprite.z_index = 2
 	if hp <= 1: 
-		set_intended_anim("attack_hurt")
+		set_intended_anim("defend_hurt")
 	else:
-		set_intended_anim("attack")
+		set_intended_anim("defend")
 	
 func set_sprite_defend(): 
 	if is_facing_left: 

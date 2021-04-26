@@ -15,6 +15,9 @@ const phase_cycle_allowed_time_if_alive = base_time*1
 const phase_cycle_allowed_time_if_dead = base_time*1
 
 const phase_loose_allowed_time = base_time*2
+const phase_archery_damage_allowed_time = base_time*2
+const phase_archery_defend_allowed_time = base_time*2
+const phase_archery_stunned_allowed_time = base_time*1
 
 var time_to_next_melee_phase = 0
 var time_to_next_ranged_phase = 0
@@ -24,6 +27,8 @@ var archers_waiting = 0
 
 var attack_archers
 var defend_archers
+var archery_target_num
+var archery_target
 
 enum BigPhase {CYCLE_LIVE, ATTACKS, CYCLE_DEAD}
 var big_phase = BigPhase.CYCLE_LIVE
@@ -32,7 +37,8 @@ enum MeleePhase {READY_ATTACK, WAIT_FOR_CLASH, CLASH, DAMAGE_CHECK, DEFEND, DEAT
 	CYCLE_LIVE, CYCLE_DEAD}
 var melee_phase = MeleePhase.READY_ATTACK
 
-enum RangedPhase {READY_ARCHERY, AWAIT_LOOSE, LOOSE, CYCLE_DEAD, CYCLE_LIVE} 
+enum RangedPhase {READY_ARCHERY, AWAIT_LOOSE, LOOSE, TAKE_DAMAGE,  DEATH, STUNNED,
+CYCLE_DEAD, CYCLE_LIVE} 
 var ranged_phase  = RangedPhase.READY_ARCHERY
 
 enum State {OUT_OF_COMBAT, COMBAT, END_COMBAT}
@@ -89,6 +95,7 @@ func calculate_whether_damaged():
 func perform_combat_state_action(delta): 
 	match(big_phase): 
 		BigPhase.CYCLE_LIVE: 
+#			print("BIG CYCLE_LIVE")
 			cycle_live_phase()
 			time_to_next_melee_phase = phase_cycle_allowed_time_if_alive
 			time_to_next_ranged_phase = phase_cycle_allowed_time_if_alive
@@ -98,6 +105,7 @@ func perform_combat_state_action(delta):
 			melee_phase = MeleePhase.READY_ATTACK
 			ranged_phase = RangedPhase.READY_ARCHERY
 		BigPhase.CYCLE_DEAD: 
+#			print("BIG CYCLE_DEAD")
 			cycle_dead_phase()
 			time_to_next_melee_phase = phase_cycle_allowed_time_if_dead
 			time_to_next_ranged_phase = phase_cycle_allowed_time_if_alive
@@ -107,6 +115,7 @@ func perform_combat_state_action(delta):
 			melee_phase = MeleePhase.READY_ATTACK
 			ranged_phase = RangedPhase.READY_ARCHERY
 		BigPhase.ATTACKS:
+#			print("BIG ATTACKS")
 			perform_melee_combat_state_action(delta)
 			perform_ranged_combat_state_action(delta)
 			if melee_phase == MeleePhase.CYCLE_DEAD: 
@@ -122,14 +131,18 @@ func perform_melee_combat_state_action(delta):
 	if time_to_next_melee_phase <= 0:
 		match(melee_phase): 
 			MeleePhase.READY_ATTACK: 
+				print("MELEE READY_ATTACK")
 				ready_attack_phase()
 			MeleePhase.WAIT_FOR_CLASH: 
+				print("MELEE WAIT_FOR_CLASH")
 				wait_for_clash_phase()
 			MeleePhase.CLASH:
+				print("MELEE CLASH")
 				clash_phase()
 				time_to_next_melee_phase = phase_clash_allowed_time
 				melee_phase = MeleePhase.DAMAGE_CHECK
 			MeleePhase.DAMAGE_CHECK: 
+				print("MELEE DAMAGE_CHECK")
 				var defender = defend_army.front()
 				if calculate_whether_damaged(): 
 					defender.take_hp_damage(1)
@@ -139,11 +152,13 @@ func perform_melee_combat_state_action(delta):
 				defender.take_stamina_damage(20)
 				time_to_next_melee_phase = 0
 			MeleePhase.DEFEND: 
+				print("MELEE DEFEND")
 				defend_phase()
 				time_to_next_melee_phase = phase_defend_allowed_time
 				switch_attacker()
 				melee_phase = MeleePhase.READY_ATTACK
 			MeleePhase.DAMAGE: 
+				print("MELEE DAMAGE")
 				var defender = defend_army.front()
 				var attacker = attack_army.front()
 				attacker.set_sprite_attack_move_in()
@@ -154,12 +169,14 @@ func perform_melee_combat_state_action(delta):
 					melee_phase = MeleePhase.STUNNED
 				time_to_next_melee_phase = phase_defend_allowed_time
 			MeleePhase.DEATH: 
+				print("MELEE DEATH")
 				death_phase()
 				time_to_next_melee_phase = 0
 				melee_phase = MeleePhase.CYCLE_DEAD
-			MeleePhase.STUNNED: 
+			MeleePhase.STUNNED:
+				print("MELEE STUNNED") 
 				var defender = defend_army.front()
-				defender.set_sprite_idle()
+				defender.set_sprite_defend_idle()
 				time_to_next_melee_phase = phase_stunned_allowed_time
 				melee_phase = MeleePhase.CYCLE_LIVE
 	else: 
@@ -227,15 +244,35 @@ func cycle_dead_phase():
 	attack_army.cycle_soldiers()
 
 func perform_ranged_combat_state_action(delta): 
+	if attack_archers.size() <= 1: 
+		ranged_phase = RangedPhase.CYCLE_LIVE
+		return
 	if time_to_next_ranged_phase <= 0:
 		match(ranged_phase): 
 			RangedPhase.READY_ARCHERY: 
+				print("RANGED READY_ARCHERY")
 				ready_archery_phase()
 			RangedPhase.AWAIT_LOOSE: 
+				print("RANGED AWAIT LOOSE")
 				pass
 			RangedPhase.LOOSE:
+				print("RANGED LOOSE")
 				loose_phase()
 				time_to_next_ranged_phase = phase_loose_allowed_time
+				ranged_phase = RangedPhase.TAKE_DAMAGE
+			RangedPhase.TAKE_DAMAGE:
+				print("RANGED TAKE_DAMAGE")
+				archery_damage_phase()
+				time_to_next_ranged_phase = phase_archery_damage_allowed_time
+			RangedPhase.DEATH: 
+				print("RANGED DEATH")
+				archery_death_phase()
+				time_to_next_ranged_phase = 0
+				ranged_phase = RangedPhase.CYCLE_DEAD
+			RangedPhase.STUNNED:
+				print("RANGED STUNNED")
+				archery_target.set_sprite_idle()
+				time_to_next_ranged_phase = phase_archery_stunned_allowed_time
 				ranged_phase = RangedPhase.CYCLE_LIVE
 	else: 
 		time_to_next_ranged_phase -= delta
@@ -247,7 +284,7 @@ func _on_soldier_archery_ready(soldier):
 		ranged_phase = RangedPhase.LOOSE
 	
 func ready_archery_phase(): 
-	if attack_archers.size() <= 1: 
+	if attack_archers.size() <= 1 or defend_archers.size() <= 1: 
 		ranged_phase = RangedPhase.CYCLE_LIVE
 	var i = 0
 	for soldier in attack_archers.soldiers:
@@ -266,7 +303,34 @@ func loose_phase():
 			i = i+1
 			continue
 		if soldier.soldier_type == SoldierType.RANGED: 
-			soldier.set_sprite_attack() 
+			soldier.set_sprite_loose() 
+
+func archery_damage_phase(): 
+	if defend_archers.size() <= 1:
+		# archery_target_num = 0
+		ranged_phase = RangedPhase.CYCLE_LIVE
+		return
+#	else: 
+	archery_target_num = 1
+	archery_target = defend_archers.soldiers[archery_target_num]
+	archery_target.take_hp_damage(1)
+	archery_target.set_sprite_damaged()
+	if archery_target.hp <= 0:
+		ranged_phase = RangedPhase.DEATH
+	else: 
+		ranged_phase = RangedPhase.STUNNED
+	time_to_next_melee_phase = phase_archery_defend_allowed_time
+
+func archery_death_phase(): 
+	defend_archers.kill_soldier_at(archery_target_num)
+	attack_archers.advance(1)
+	defend_archers.retreat(1)
+	if defend_archers.size() == 0: 
+		attack_archers.set_all_melee_soldiers_idle()
+		attack_archers.set_all_ranged_soldiers_idle()
+		ranged_phase = RangedPhase.READY_ARCHERY
+		state = State.END_COMBAT
+		return
 
 func switch_archers(): 	
 	print("Switching archers")
