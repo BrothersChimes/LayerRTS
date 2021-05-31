@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/Tent.png" type="Texture" id=1]
+
+[node name="Barracks" type="Node2D"]
+
+[node name="Tent" type="Sprite" parent="."]
+position = Vector2( 0, -44 )
+texture = ExtResource( 1 )
