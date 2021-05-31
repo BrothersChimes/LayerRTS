@@ -142,7 +142,7 @@ script = ExtResource( 1 )
 position = Vector2( -0.594605, -1 )
 frames = SubResource( 17 )
 animation = "walk_hurt"
-frame = 7
+frame = 2
 playing = true
 
 [node name="NameLabel" type="Label" parent="."]
