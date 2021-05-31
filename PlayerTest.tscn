@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/cloaked_walk.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
 [ext_resource path="res://buildings/BarracksPlacer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://PlayerTest.gd" type="Script" id=4]
 [ext_resource path="res://assets/TilesNonSliced.png" type="Texture" id=5]
 [ext_resource path="res://assets/battle-background-sunny-hillsx1.png" type="Texture" id=6]
 
@@ -269,7 +270,8 @@ animations = [ {
 "speed": 20.0
 } ]
 
-[node name="ArmySimTest" type="Node2D"]
+[node name="PlayerTest" type="Node2D"]
+script = ExtResource( 4 )
 
 [node name="Background" type="TileMap" parent="."]
 z_index = -5
@@ -308,3 +310,4 @@ current = true
 zoom = Vector2( 0.5, 0.5 )
 
 [node name="BarracksPlacer" parent="." instance=ExtResource( 3 )]
+[connection signal="place_barracks" from="BarracksPlacer" to="." method="_on_BarracksPlacer_place_barracks"]
