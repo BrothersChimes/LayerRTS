@@ -1,10 +1,12 @@
 extends Node2D
 
 signal attack_ready(soldier)
-
+const SoldierType = preload("SoldierType.gd").SoldierType
 const cycle_speed = 50
 const position_delta = 4 
 # var a = 2
+var soldier_type = SoldierType.MELEE
+
 var hp = 0
 var stamina = 100
 var order_number = 0
@@ -196,6 +198,14 @@ func set_sprite_idle():
 	else: 
 		set_intended_anim("idle")
 		
+func set_sprite_defend_idle(): 
+	set_sprite_center()
+	$SoldierSprite.z_index = 0
+	if hp <= 1: 
+		set_intended_anim("idle_hurt")
+	else: 
+		set_intended_anim("idle")
+				
 func set_sprite_damaged(): 
 	$SoldierSprite.z_index = 0
 	if hp <= 0: 

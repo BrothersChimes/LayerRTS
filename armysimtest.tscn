@@ -237,7 +237,7 @@ script = ExtResource( 3 )
 script = ExtResource( 2 )
 
 [node name="SoldierSpawnerLeft" type="Node2D" parent="ArmySim"]
-position = Vector2( -432, 118 )
+position = Vector2( -42.227, 107.321 )
 
 [node name="DEBUG_CURSOR" type="Node2D" parent="ArmySim"]
 script = ExtResource( 9 )
@@ -246,12 +246,13 @@ script = ExtResource( 9 )
 texture = ExtResource( 10 )
 
 [node name="CameraController" type="Node2D" parent="."]
+position = Vector2( -1.33484, 29.3665 )
 script = ExtResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="CameraController"]
 anchor_mode = 0
 current = true
-zoom = Vector2( 0.5, 0.5 )
+zoom = Vector2( 0.25, 0.25 )
 
 [node name="Background" type="TileMap" parent="."]
 z_index = -5

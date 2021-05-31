@@ -5,6 +5,7 @@ signal army_removed(army)
 var soldiers = []
 var display_name = "display name"
 var distance_between_soldiers = 0
+const SoldierType = preload("SoldierType.gd").SoldierType
 
 var is_facing_right = true
 
@@ -31,14 +32,9 @@ func _process(delta):
 			$ArmyLocator.position.x += delta*march_speed
 			is_facing_right = true
 			march_soldiers()
-	#		for soldier in soldiers:
-	#			soldier.reposition()
-			# mini_phase = MiniPhase.REPOSITION
-			# is_walk_backwards = is_facing_left
 		else: 
 			$ArmyLocator.position.x = objective_x_position
 			stop_soldiers()
-			# mini_phase = MiniPhase.REACH_LOCATION
 
 func x_position(): 
 	return $ArmyLocator.position.x
@@ -71,6 +67,10 @@ func remove_army():
 
 class SoldierSorter:
 	static func sort_ascending(soldier1, soldier2):
+		if soldier1.soldier_type == SoldierType.MELEE and soldier2.soldier_type == SoldierType.RANGED:
+			return true
+		if soldier2.soldier_type == SoldierType.MELEE and soldier1.soldier_type == SoldierType.RANGED:
+			return false
 		if soldier1.stamina > soldier2.stamina: 
 			return true
 		elif soldier1.stamina == soldier2.stamina: 
@@ -120,12 +120,36 @@ func cycle_soldiers():
 func set_all_soldiers_idle(): 
 	for soldier in soldiers: 
 		soldier.set_sprite_idle()
+		
+func set_all_melee_soldiers_idle(): 
+	var i = 0
+	for soldier in soldiers: 
+		if i == 0: 
+			i += 1
+			soldier.set_sprite_idle()
+			continue
+		if soldier.soldier_type == SoldierType.MELEE: 
+			soldier.set_sprite_idle()
 
+func set_all_ranged_soldiers_idle(): 
+	var i = 0
+	for soldier in soldiers: 
+		if i == 0: 
+			i += 1
+			continue
+		if soldier.soldier_type == SoldierType.RANGED: 
+			soldier.set_sprite_idle()
+			
 func size(): 
 	return soldiers.size()
 
 func front(): 
 	return soldiers.front()
+
+func kill_soldier_at(location):
+	var soldier_at_location = soldiers[location]
+	soldiers.remove(location)
+	soldier_at_location.set_sprite_dead()
 
 func kill_front_soldier(): 
 	var front_soldier = soldiers.pop_front()
