@@ -3,7 +3,7 @@ extends Node2D
 var Gremlin = preload("../enemies/Gremlin.tscn")
 var enemies = []
 
-const ENEMY_START_POS = 400
+const ENEMY_START_POS = 2000
 const ground_level = 162
 
 const nearness_epsilon = 20

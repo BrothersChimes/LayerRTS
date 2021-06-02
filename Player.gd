@@ -1,6 +1,6 @@
 extends Node2D
 
-export var attack_distance = 44
+export var attack_distance = 64
 
 const base_speed = 200
 const walk_anim_speed_base = 1
