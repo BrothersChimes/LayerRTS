@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/Tent.png" type="Texture" id=1]
+[ext_resource path="res://assets/Tent_glow_lantern.png" type="Texture" id=2]
+[ext_resource path="res://buildings/Barracks.gd" type="Script" id=3]
 
 [node name="Barracks" type="Node2D"]
+script = ExtResource( 3 )
 
-[node name="Tent" type="Sprite" parent="."]
+[node name="Tent_glow_lantern" type="Sprite" parent="."]
 position = Vector2( 0, -44 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
