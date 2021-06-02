@@ -359,6 +359,7 @@ z_index = 1
 [node name="EnemyController" type="Node2D" parent="GameController"]
 script = ExtResource( 11 )
 [connection signal="player_attacking" from="GameController/Player" to="GameController" method="_on_Player_player_attacking"]
+[connection signal="toggle_build" from="GameController/Player" to="GameController" method="_on_Player_toggle_build"]
 [connection signal="animation_finished" from="GameController/Player/PlayerSprite" to="GameController/Player" method="_on_PlayerSprite_animation_finished"]
 [connection signal="register_units" from="GameController/AlliedController/UnitsController" to="GameController/AlliedController" method="_on_UnitsController_register_units"]
 [connection signal="barracks_done" from="GameController/AlliedController/BuildingsController" to="GameController/AlliedController" method="_on_BuildingsController_barracks_done"]

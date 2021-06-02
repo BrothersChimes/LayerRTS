@@ -32,6 +32,18 @@ func nearest_enemy_to(player_pos_x, is_left):
 				nearest_enemy = enemy 
 	
 	return nearest_enemy
+
+func all_enemies_within(player_pos_x, distance, is_left): 
+	var close_enemies = []
+	for enemy in enemies: 
+		var enemy_pos_x = enemy.position.x
+		if is_left and enemy_pos_x < player_pos_x: 
+			if player_pos_x - enemy_pos_x < distance:
+				close_enemies.append(enemy) 
+		if not is_left and enemy_pos_x > player_pos_x: 
+			if enemy_pos_x - player_pos_x < distance:
+				close_enemies.append(enemy) 
+	return close_enemies
 	
 # Returns a pair of values
 func check_and_project_for_near_enemies(player_pos_x):

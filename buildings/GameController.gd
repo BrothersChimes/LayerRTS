@@ -14,8 +14,13 @@ func _process(delta):
 
 func _on_Player_player_attacking(is_facing_left):
 	var player_pos_x = $Player.position.x
-	var enemy = $EnemyController.nearest_enemy_to(player_pos_x, is_facing_left)
-	print("ENEMY: " + str(enemy))
+	var distance =  $Player.attack_distance
+	var enemies = $EnemyController.all_enemies_within(player_pos_x, distance, is_facing_left)
 	
-	if enemy != null: 
-		$EnemyController.kill(enemy)
+	for enemy in enemies: 
+		if enemy != null: 
+			$EnemyController.kill(enemy)
+
+
+func _on_Player_toggle_build():
+	$AlliedController/BuildingsController.toggle_build()

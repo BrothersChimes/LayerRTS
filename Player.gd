@@ -1,9 +1,12 @@
 extends Node2D
 
+export var attack_distance = 44
+
 const base_speed = 200
 const walk_anim_speed_base = 1
 const run_speed_mult = 2
 const attack_time = 0.5
+
 var attack_timer = 0
 
 var walk_anim_speed = walk_anim_speed_base
@@ -16,23 +19,29 @@ var is_enemy_left = false
 var is_attacking = false
 
 signal player_attacking(is_left)
+signal toggle_build()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
-func _process(delta):
+func _process(delta):	
 	if Input.is_action_pressed("attack"):
 		start_attack()
-		
+	
+	if Input.is_action_just_pressed("toggle_build"):
+		emit_signal("toggle_build")
+			
 	if attack_timer <= 0: 
 		is_attacking = false
 	
 	if is_attacking: 
 		attack_timer -= delta
 		return
-		
-	if Input.is_action_pressed("run"):
+	
+	#### 
+
+	if Input.is_action_pressed("run") :
 		walk_anim_speed = walk_anim_speed_base*run_speed_mult
 		player_speed = base_speed*run_speed_mult
 	else: 

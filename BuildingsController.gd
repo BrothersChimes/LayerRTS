@@ -25,6 +25,9 @@ func _process(delta):
 	else: 
 		barracks_placer.set_not_allowed()
 
+func toggle_build(): 
+	barracks_placer.toggle_build()
+
 func _on_BarracksPlacer_place_barracks(x_pos):
 	var barracks_builder = BarracksBuilder.instance()
 	barracks_builder.position = Vector2(x_pos, ground_level)
