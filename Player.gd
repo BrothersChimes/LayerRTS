@@ -8,6 +8,9 @@ var walk_anim_speed = walk_anim_speed_base
 var player_speed = base_speed
 var is_facing_left = false
 
+var is_player_near_enemy = false
+var is_enemy_left = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -21,10 +24,17 @@ func _process(delta):
 		player_speed = base_speed
 	
 	if Input.is_action_pressed("walk_left") and position.x > -480:
+		if is_player_near_enemy and is_enemy_left: 
+			anim_idle()
+			return
 		position.x = position.x - delta*player_speed
 		face_left()
 		anim_walk()
 	elif Input.is_action_pressed("walk_right") and position.x < 1400: 
+		# print("ISNEAR: " + str(is_player_near_enemy))
+		if is_player_near_enemy and not is_enemy_left: 
+			anim_idle()
+			return
 		position.x = position.x + delta*player_speed
 		face_right()
 		anim_walk()
@@ -45,3 +55,8 @@ func face_left():
 func face_right(): 
 	is_facing_left = false
 	$PlayerSprite.flip_h = false
+
+func near_enemy(is_near, is_left): 
+	is_player_near_enemy = is_near
+	# print("ISNEAR: " + str(is_player_near_enemy))
+	is_enemy_left = is_left

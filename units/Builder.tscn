@@ -106,5 +106,4 @@ script = ExtResource( 4 )
 position = Vector2( 0, -30 )
 frames = SubResource( 20 )
 animation = "building"
-frame = 6
 playing = true
