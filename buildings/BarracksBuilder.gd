@@ -7,13 +7,17 @@ var time_passed_since_last_tick = 0
 
 var total_frames = 0
 var building_completion = 0
+var is_building = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$AnimatedSprite._set_playing(false)
-	start_building()
 
 func _process(delta): 
+	if is_building: 
+		process_building(delta)
+
+func process_building(delta): 
 	time_passed_since_last_tick += delta
 	if time_passed_since_last_tick > building_tick_time: 
 		building_completion += 1
@@ -28,8 +32,14 @@ func start_building():
 	$AnimatedSprite.set_animation("building")
 	total_frames = $AnimatedSprite.get_sprite_frames().get_frame_count("building")
 	$CompletionLabel.visible = true
-	# $AnimatedSprite._set_playing(true)	
+	is_building = true
+	
+func pause_building(): 
+	is_building = false
 
 func finish_building(): 
-	print("FINISH BUILDING")
 	emit_signal("building_done", self)
+
+# TODO
+func delete_urself(): 
+	queue_free()

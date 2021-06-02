@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="LayerRTS"
-run/main_scene="res://PlayerTest.tscn"
+run/main_scene="res://buildings/BuildingsTest.tscn"
 config/icon="res://icon.png"
 
 [display]

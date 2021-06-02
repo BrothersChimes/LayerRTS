@@ -1,8 +1,9 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/units/builder_walk_1.png" type="Texture" id=1]
 [ext_resource path="res://assets/units/builder_idle_1.png" type="Texture" id=2]
 [ext_resource path="res://assets/units/small_builder_hammer_1.png" type="Texture" id=3]
+[ext_resource path="res://units/Builder.gd" type="Script" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -94,14 +95,16 @@ animations = [ {
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
 "loop": true,
-"name": "hammer",
+"name": "building",
 "speed": 5.0
 } ]
 
 [node name="Builder" type="Node2D"]
+script = ExtResource( 4 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -30 )
 frames = SubResource( 20 )
-animation = "idle"
+animation = "building"
+frame = 6
 playing = true

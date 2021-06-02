@@ -7,6 +7,9 @@ var Barracks = preload("buildings/Barracks.tscn")
 var BarracksBuilder = preload("buildings/BarracksBuilder.tscn")
 var barracks_placer
 
+signal barracks_placed(barracks_builder)
+signal barracks_done(barracks_builder)
+
 var placed_barrackses = []
 var finished_barrackses = []
 
@@ -29,13 +32,14 @@ func _on_BarracksPlacer_place_barracks(x_pos):
 	placed_barrackses.append(barracks_builder)
 	add_child(barracks_builder)
 	barracks_builder.connect("building_done", self, "_on_BarracksBuilder_building_done")
+	emit_signal("barracks_placed", barracks_builder)
 
 func _on_BarracksBuilder_building_done(barracks_builder): 
 	var x_pos = barracks_builder.position.x
 	if placed_barrackses.find(barracks_builder) == -1:
 		print("Barracks builder " + str(barracks_builder) + " not found")
 	placed_barrackses.remove(placed_barrackses.find(barracks_builder))
-	barracks_builder.queue_free()
+	emit_signal("barracks_done", barracks_builder)
 	var barracks = Barracks.instance()
 	barracks.position = Vector2(x_pos, ground_level)
 	finished_barrackses.append(barracks)
