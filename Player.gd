@@ -3,6 +3,8 @@ extends Node2D
 const base_speed = 200
 const walk_anim_speed_base = 1
 const run_speed_mult = 2
+const attack_time = 0.5
+var attack_timer = 0
 
 var walk_anim_speed = walk_anim_speed_base
 var player_speed = base_speed
@@ -11,11 +13,25 @@ var is_facing_left = false
 var is_player_near_enemy = false
 var is_enemy_left = false
 
+var is_attacking = false
+
+signal player_attacking(is_left)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
+	if Input.is_action_pressed("attack"):
+		start_attack()
+		
+	if attack_timer <= 0: 
+		is_attacking = false
+	
+	if is_attacking: 
+		attack_timer -= delta
+		return
+		
 	if Input.is_action_pressed("run"):
 		walk_anim_speed = walk_anim_speed_base*run_speed_mult
 		player_speed = base_speed*run_speed_mult
@@ -41,6 +57,14 @@ func _process(delta):
 	else: 
 		anim_idle()
 
+func start_attack(): 
+	if not is_attacking:
+		is_attacking = true
+		$PlayerSprite.play("attack")
+		emit_signal("player_attacking", is_facing_left)
+	if attack_timer <= 0: 
+		attack_timer = attack_time
+
 func anim_walk(): 
 	$PlayerSprite.play("walk")
 	$PlayerSprite.speed_scale = walk_anim_speed
@@ -58,5 +82,9 @@ func face_right():
 
 func near_enemy(is_near, is_left): 
 	is_player_near_enemy = is_near
-	# print("ISNEAR: " + str(is_player_near_enemy))
 	is_enemy_left = is_left
+
+
+func _on_PlayerSprite_animation_finished():
+	if is_attacking: 
+		$PlayerSprite.play("idle")
