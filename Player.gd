@@ -110,7 +110,6 @@ func start_attack():
 		attack_timer = attack_time
 		
 func start_fizzle(): 
-	print("FIZZLE")
 	if not is_fizzling and not is_attacking:
 		is_fizzling = true
 		mana = clamp(100, 0, mana - 5)

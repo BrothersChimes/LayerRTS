@@ -19,7 +19,7 @@ var health = 100
 var max_health = 100
 const health_recharge = 1
 
-enum Action {WALK, FIGHT, IDLE} 
+enum Action {WALK, FIGHT, IDLE, DIE} 
 
 var action = Action.WALK
 var is_player_near = false
@@ -32,7 +32,7 @@ func _ready():
 func _process(delta):
 	health = clamp(max_health, 0, health + health_recharge*delta)
 	$HealthBar.set_value(health/max_health*100)
-	if health < 100: 
+	if health < 100 and action != Action.DIE: 
 		$HealthBar.visible = true
 	else: 
 		$HealthBar.visible = false
@@ -48,7 +48,7 @@ func _process(delta):
 			attack()
 
 func is_near_player(is_player_left): 
-	if action != Action.FIGHT: 
+	if action != Action.FIGHT and action != Action.DIE: 
 		is_player_near = true
 		action = Action.FIGHT
 		attack()
@@ -63,9 +63,15 @@ func deal_damage(damage):
 	health -= damage
 	if health <= 0:
 		emit_signal("dies", self)
+		start_death()
 
+func start_death(): 
+	$AnimatedSprite.play("die")
+	$AnimatedSprite.speed_scale = 1
+	action = Action.DIE
+	
 func is_not_near_player():
-	if action != Action.WALK: 
+	if action != Action.WALK and action != Action.DIE: 
 		action = Action.WALK
 		is_player_near = false
 
@@ -77,7 +83,9 @@ func _on_AnimatedSprite_animation_finished():
 		if action == Action.WALK: 
 			$AnimatedSprite.play("walk")
 			$AnimatedSprite.speed_scale = base_anim_speed
-		else: 
+		elif action != Action.DIE:
 			$AnimatedSprite.play("idle")
 		$AnimatedSprite.speed_scale = base_anim_speed
 		
+	if $AnimatedSprite.get_animation() == "die": 
+		queue_free()

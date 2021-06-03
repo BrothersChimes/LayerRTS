@@ -79,4 +79,3 @@ func deal_damage_to(enemy, damage):
 
 func _on_enemy_dies(enemy): 
 	enemies.remove(enemies.find(enemy))
-	enemy.queue_free()
