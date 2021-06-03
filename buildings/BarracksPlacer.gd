@@ -28,13 +28,15 @@ func get_position_x():
 
 func set_allowed(): 
 	is_allowed = true
-	$tent_green.visible = true
-	$tent_red.visible = false
+	$TentSprite.modulate = Color(0.2, 0.8, 0.2)
+	# $tent_green.visible = true
+	# $tent_red.visible = false
 	
 func set_not_allowed():
 	is_allowed = false
-	$tent_green.visible = false
-	$tent_red.visible = true
+	$TentSprite.modulate = Color(0.8, 0.2, 0.2)
+	# $tent_green.visible = false
+	# $tent_red.visible = true
 
 func toggle_build(): 
 	if is_build_mode: 
