@@ -1,6 +1,6 @@
 extends Node2D
 
-export var attack_distance = 64
+export var attack_distance = 48
 
 const base_speed = 200
 const walk_anim_speed_base = 1
@@ -89,7 +89,7 @@ func start_attack():
 		attack_timer = attack_time
 
 func play_hit_animation(): 
-	$PlayerSprite.play("attack_2")
+	$PlayerSprite.play("attack")
 
 func play_miss_animation(): 
 	$PlayerSprite.play("miss")
@@ -116,3 +116,6 @@ func near_enemy(is_near, is_left):
 func _on_PlayerSprite_animation_finished():
 	if is_attacking: 
 		$PlayerSprite.play("idle")
+
+func deal_damage(amount): 
+	health -= amount

@@ -29,3 +29,7 @@ func _on_Player_player_attacking(is_facing_left):
 
 func _on_Player_toggle_build():
 	$AlliedController/BuildingsController.toggle_build()
+
+
+func _on_EnemyController_deal_damage(amount):
+	$Player.deal_damage(amount)

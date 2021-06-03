@@ -1,7 +1,6 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://buildings/BarracksPlacer.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/units/cloaked_attack.png" type="Texture" id=2]
 [ext_resource path="res://assets/battle-background-sunny-hillsx1.png" type="Texture" id=3]
 [ext_resource path="res://assets/TilesNonSliced.png" type="Texture" id=4]
 [ext_resource path="res://Player.gd" type="Script" id=5]
@@ -232,24 +231,24 @@
 atlas = ExtResource( 7 )
 region = Rect2( 64, 64, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 13 )
 region = Rect2( 0, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 13 )
 region = Rect2( 64, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 13 )
 region = Rect2( 0, 64, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 13 )
 region = Rect2( 64, 64, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 2 )
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 13 )
 region = Rect2( 0, 128, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=9]
@@ -304,26 +303,6 @@ region = Rect2( 64, 64, 64, 64 )
 atlas = ExtResource( 12 )
 region = Rect2( 0, 128, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 13 )
-region = Rect2( 64, 0, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 13 )
-region = Rect2( 64, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 128, 64, 64 )
-
 [sub_resource type="SpriteFrames" id=17]
 animations = [ {
 "frames": [ SubResource( 3 ) ],
@@ -331,7 +310,7 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ],
 "loop": true,
 "name": "attack",
 "speed": 20.0
@@ -344,11 +323,6 @@ animations = [ {
 "frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
 "loop": true,
 "name": "miss",
-"speed": 20.0
-}, {
-"frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ],
-"loop": true,
-"name": "attack_2",
 "speed": 20.0
 } ]
 
@@ -392,8 +366,7 @@ script = ExtResource( 5 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="GameController/Player"]
 position = Vector2( 0, -30 )
 frames = SubResource( 17 )
-animation = "attack_2"
-frame = 3
+animation = "idle"
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="GameController/Player"]
@@ -448,3 +421,4 @@ script = ExtResource( 11 )
 [connection signal="barracks_done" from="GameController/AlliedController/BuildingsController" to="GameController/AlliedController" method="_on_BuildingsController_barracks_done"]
 [connection signal="barracks_placed" from="GameController/AlliedController/BuildingsController" to="GameController/AlliedController" method="_on_BuildingsController_barracks_placed"]
 [connection signal="place_barracks" from="GameController/AlliedController/BuildingsController/BarracksPlacer" to="GameController/AlliedController/BuildingsController" method="_on_BarracksPlacer_place_barracks"]
+[connection signal="deal_damage" from="GameController/EnemyController" to="GameController" method="_on_EnemyController_deal_damage"]

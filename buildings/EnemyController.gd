@@ -1,9 +1,11 @@
 extends Node2D
 
+signal deal_damage(amount)
+
 var Gremlin = preload("../enemies/Gremlin.tscn")
 var enemies = []
 
-const ENEMY_START_POS = 2000
+const ENEMY_START_POS = 1000
 const ground_level = 162
 
 const nearness_epsilon = 20
@@ -14,7 +16,11 @@ func _ready():
 		gremlin = Gremlin.instance()
 		gremlin.position = Vector2(ENEMY_START_POS + x*distance_between_gremlins, ground_level)
 		enemies.append(gremlin)
+		gremlin.connect("deal_damage", self, "_on_enemy_deals_damage")
 		add_child(gremlin)
+
+func _on_enemy_deals_damage(amount): 
+	emit_signal("deal_damage", amount)
 
 func nearest_enemy_to(player_pos_x, is_left): 
 	var nearest_enemy
