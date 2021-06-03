@@ -5,6 +5,7 @@ signal deal_damage(amount)
 var Gremlin = preload("../enemies/Gremlin.tscn")
 var enemies = []
 
+const MAX_INT = 9223372036854775807
 const ENEMY_START_POS = 1000
 const ground_level = 162
 
@@ -17,6 +18,7 @@ func _ready():
 		gremlin.position = Vector2(ENEMY_START_POS + x*distance_between_gremlins, ground_level)
 		enemies.append(gremlin)
 		gremlin.connect("deal_damage", self, "_on_enemy_deals_damage")
+		gremlin.connect("dies", self, "_on_enemy_dies")
 		add_child(gremlin)
 
 func _on_enemy_deals_damage(amount): 
@@ -24,7 +26,7 @@ func _on_enemy_deals_damage(amount):
 
 func nearest_enemy_to(player_pos_x, is_left): 
 	var nearest_enemy
-	var closest_distance = 11000000000
+	var closest_distance = MAX_INT
 	
 	for enemy in enemies: 
 		var enemy_pos_x = enemy.position.x
@@ -72,6 +74,9 @@ func check_and_project_for_near_enemies(player_pos_x):
 		return_values.append(false)
 	return return_values
 
-func kill(enemy): 
+func deal_damage_to(enemy, damage): 
+	enemy.deal_damage(damage)
+
+func _on_enemy_dies(enemy): 
 	enemies.remove(enemies.find(enemy))
 	enemy.queue_free()

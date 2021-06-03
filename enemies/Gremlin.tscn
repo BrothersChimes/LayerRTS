@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/enemies/gremlin_small_walk.png" type="Texture" id=1]
 [ext_resource path="res://enemies/Gremlin.gd" type="Script" id=2]
@@ -62,12 +62,34 @@ animations = [ {
 "speed": 20.0
 } ]
 
+[sub_resource type="StyleBoxLine" id=13]
+color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="StyleBoxLine" id=14]
+
+[sub_resource type="DynamicFont" id=12]
+
 [node name="Gremlin" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -8 )
+position = Vector2( 0, -8.47194 )
 frames = SubResource( 10 )
-animation = "attack_reverse"
+animation = "attack"
+frame = 3
 playing = true
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+visible = false
+margin_left = -12.4703
+margin_top = -32.9135
+margin_right = 12.5297
+margin_bottom = -26.9135
+custom_styles/fg = SubResource( 13 )
+custom_styles/bg = SubResource( 14 )
+custom_fonts/font = SubResource( 12 )
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

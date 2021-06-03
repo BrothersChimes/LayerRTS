@@ -13,6 +13,8 @@ var is_build_mode = true
 func _ready():
 	position.y = ground_level
 	set_not_allowed()
+	is_build_mode = false
+	visible = is_build_mode
 	
 func _process(delta):
 	if is_build_mode: 

@@ -2,7 +2,7 @@ extends Node2D
 
 const walk_speed = 100
 const base_anim_speed = 1
-const attack_distance = 32
+const attack_distance = 20
 
 const damage_time = 0.3
 const attack_cycle_time = 1
@@ -10,9 +10,14 @@ const attack_cycle_time = 1
 const damage_amount = 5
 
 signal deal_damage(amount) 
+signal dies(this)
 
 var time_to_next_attack = 0
 var has_damaged = false
+
+var health = 100
+var max_health = 100
+const health_recharge = 1
 
 enum Action {WALK, FIGHT, IDLE} 
 
@@ -25,6 +30,13 @@ func _ready():
 	$AnimatedSprite.speed_scale = 1
 
 func _process(delta):
+	health = clamp(max_health, 0, health + health_recharge*delta)
+	$HealthBar.set_value(health/max_health*100)
+	if health < 100: 
+		$HealthBar.visible = true
+	else: 
+		$HealthBar.visible = false
+	
 	if action == Action.WALK:
 		position.x -= walk_speed*delta
 	if action == Action.FIGHT: 
@@ -46,6 +58,11 @@ func attack():
 	$AnimatedSprite.play("attack")
 	$AnimatedSprite.speed_scale = 1
 	has_damaged = false
+
+func deal_damage(damage): 
+	health -= damage
+	if health <= 0:
+		emit_signal("dies", self)
 
 func is_not_near_player():
 	if action != Action.WALK: 
