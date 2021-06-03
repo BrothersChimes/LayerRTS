@@ -17,6 +17,11 @@ func _on_Player_player_attacking(is_facing_left):
 	var distance =  $Player.attack_distance
 	var enemies = $EnemyController.all_enemies_within(player_pos_x, distance, is_facing_left)
 	
+	if enemies.empty(): 
+		$Player.play_miss_animation()
+	else: 
+		$Player.play_hit_animation()
+	
 	for enemy in enemies: 
 		if enemy != null: 
 			$EnemyController.kill(enemy)

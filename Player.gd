@@ -83,11 +83,16 @@ func _process(delta):
 func start_attack(): 
 	if not is_attacking:
 		is_attacking = true
-		$PlayerSprite.play("attack")
 		emit_signal("player_attacking", is_facing_left)
 		mana -= 80
 	if attack_timer <= 0: 
 		attack_timer = attack_time
+
+func play_hit_animation(): 
+	$PlayerSprite.play("attack_2")
+
+func play_miss_animation(): 
+	$PlayerSprite.play("miss")
 
 func anim_walk(): 
 	$PlayerSprite.play("walk")
@@ -107,7 +112,6 @@ func face_right():
 func near_enemy(is_near, is_left): 
 	is_player_near_enemy = is_near
 	is_enemy_left = is_left
-
 
 func _on_PlayerSprite_animation_finished():
 	if is_attacking: 
