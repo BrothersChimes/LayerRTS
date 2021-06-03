@@ -8,11 +8,11 @@ var enemies = []
 const ENEMY_START_POS = 1000
 const ground_level = 162
 
-const nearness_epsilon = 20
+# const nearness_epsilon = 20
 const distance_between_gremlins = 256
 func _ready():
 	var gremlin 
-	for x in range(1,10): 
+	for x in range(1,20): 
 		gremlin = Gremlin.instance()
 		gremlin.position = Vector2(ENEMY_START_POS + x*distance_between_gremlins, ground_level)
 		enemies.append(gremlin)
@@ -57,6 +57,7 @@ func check_and_project_for_near_enemies(player_pos_x):
 	
 	for enemy in enemies: 
 		var enemy_pos_x = enemy.position.x
+		var nearness_epsilon = enemy.get_attack_range()
 		if abs(player_pos_x - enemy_pos_x) < nearness_epsilon: 
 			return_values = []
 			return_values.append(true)

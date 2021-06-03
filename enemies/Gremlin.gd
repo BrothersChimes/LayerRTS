@@ -51,11 +51,16 @@ func is_not_near_player():
 	if action != Action.WALK: 
 		action = Action.WALK
 		is_player_near = false
-		$AnimatedSprite.play("walk")
-		$AnimatedSprite.speed_scale = base_anim_speed
 
+func get_attack_range(): 
+	return attack_distance
 
 func _on_AnimatedSprite_animation_finished():
 	if $AnimatedSprite.get_animation() == "attack": 
-		$AnimatedSprite.play("idle")
+		if action == Action.WALK: 
+			$AnimatedSprite.play("walk")
+			$AnimatedSprite.speed_scale = base_anim_speed
+		else: 
+			$AnimatedSprite.play("idle")
+		$AnimatedSprite.speed_scale = base_anim_speed
 		
