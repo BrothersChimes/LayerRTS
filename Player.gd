@@ -18,16 +18,30 @@ var is_enemy_left = false
 
 var is_attacking = false
 
+var max_mana = 100
+var mana = 100
+const mana_recharge = 50
+
+var health = 100
+var max_health = 100
+const health_recharge = 1
+
 signal player_attacking(is_left)
 signal toggle_build()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$ManaBar.set_value(0)
 
-func _process(delta):	
-	if Input.is_action_pressed("attack"):
-		start_attack()
+func _process(delta):
+	health = clamp(max_health, 0, health + health_recharge*delta)
+	mana = clamp(max_mana, 0, mana + mana_recharge*delta)
+	$HealthBar.set_value(health/max_health*100)
+	$ManaBar.set_value(mana/max_mana*100)
+	
+	if Input.is_action_just_pressed("attack"):
+		if mana >= 80:
+			start_attack()
 	
 	if Input.is_action_just_pressed("toggle_build"):
 		emit_signal("toggle_build")
@@ -71,6 +85,7 @@ func start_attack():
 		is_attacking = true
 		$PlayerSprite.play("attack")
 		emit_signal("player_attacking", is_facing_left)
+		mana -= 80
 	if attack_timer <= 0: 
 		attack_timer = attack_time
 

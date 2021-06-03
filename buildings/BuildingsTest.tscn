@@ -350,7 +350,6 @@ current = true
 zoom = Vector2( 0.5, 0.5 )
 
 [node name="HealthBar" type="ProgressBar" parent="GameController/Player"]
-visible = false
 margin_left = -26.0
 margin_top = -76.4454
 margin_right = 27.0
@@ -363,7 +362,6 @@ __meta__ = {
 }
 
 [node name="ManaBar" type="ProgressBar" parent="GameController/Player"]
-visible = false
 margin_left = -26.0
 margin_top = -60.0
 margin_right = 27.0
