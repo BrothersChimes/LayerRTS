@@ -6,8 +6,9 @@ export var attack_damage = 60
 const base_speed = 200
 const walk_anim_speed_base = 1
 const run_speed_mult = 2
-const attack_time = 0.5
+const attack_time = 0.1 # TODO SHOULD BE 0.5
 const fizzle_time = 0.2
+const ATTACK_COST = 10 # TODO SHOULD BE 80
 
 var attack_timer = 0
 var fizzle_timer = 0
@@ -41,7 +42,7 @@ func _process(delta):
 	modulate_bars(delta)
 	
 	if Input.is_action_just_pressed("attack"):
-		if mana >= 80:
+		if mana >= ATTACK_COST:
 			start_attack()
 		else: 
 			start_fizzle()
@@ -105,7 +106,7 @@ func start_attack():
 	if not is_attacking:
 		is_attacking = true
 		emit_signal("player_attacking", attack_damage, is_facing_left)
-		mana -= 80
+		mana -= ATTACK_COST
 	if attack_timer <= 0: 
 		attack_timer = attack_time
 		

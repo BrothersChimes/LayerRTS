@@ -8,6 +8,10 @@ var Builder = preload("../units/Builder.tscn")
 var builders = []
 
 func _ready():
+	# create_builders()	
+	pass
+	
+func create_builders():	
 	var builder
 	
 	builder = Builder.instance()
