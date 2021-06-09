@@ -390,6 +390,7 @@ script = ExtResource( 8 )
 position = Vector2( 0, -30.1669 )
 frames = SubResource( 27 )
 animation = "fizzle"
+frame = 3
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="GameController/Player"]
