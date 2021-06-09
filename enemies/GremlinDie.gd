@@ -1,5 +1,7 @@
-extends Node2D
+extends GremlinState
 
-func _on_AnimatedSprite_animation_finished():
-	if $AnimatedSprite.get_animation() == "die": 
-		queue_free()
+func _ready():
+	animated_sprite.play("die")
+
+func signal_player_pos(player_pos_x): 
+	pass
