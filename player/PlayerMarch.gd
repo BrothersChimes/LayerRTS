@@ -147,3 +147,6 @@ func _on_PlayerSprite_animation_finished():
 		
 func deal_damage(amount): 
 	health -= amount
+
+func enemy_near_player(): 
+	change_state.call_func("battle")

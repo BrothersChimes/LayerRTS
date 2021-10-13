@@ -8,6 +8,8 @@ var GremlinBattle = preload("../enemies/GremlinBattle.tscn")
 var GremlinDie = preload("../enemies/GremlinDie.tscn")
 var display_name
 
+signal enemy_near_player
+
 func _init():
 	states = {
 		"attack": GremlinBattle,
@@ -35,3 +37,4 @@ func get_state(state_name):
 		
 func signal_player_pos(player_pos_x): 
 	state.signal_player_pos(player_pos_x)
+

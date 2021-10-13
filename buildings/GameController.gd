@@ -5,12 +5,17 @@ extends Node2D
 #const Battle = preload("res://battle/Battle.tscn")
 #var has_battle = false
 #var battle = null
-#
+
+func _ready():
+	$EnemyController.connect("enemy_near_player", self, "_on_enemy_near_player")
+
 func _process(delta): 
 	var player_pos_x = $Player.position.x
 	$EnemyController.signal_player_pos_to_enemies(player_pos_x)
-	
-#
+
+func _on_enemy_near_player(): 
+	$Player.enemy_near_player()
+
 #	# TODO make this make more sense.
 #	var nearness_results = $EnemyController.check_and_project_for_enemies_near_player(player_pos_x)
 #	var is_near_enemy = nearness_results[0]

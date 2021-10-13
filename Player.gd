@@ -34,6 +34,8 @@ func get_state(state_name):
 	else:
 		printerr("No state ", state_name, " in state factory!")
 
-
 func _on_PlayerSprite_animation_finished():
 	state._on_PlayerSprite_animation_finished()
+
+func enemy_near_player(): 
+	state.enemy_near_player()

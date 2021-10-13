@@ -8,6 +8,8 @@ const distance_between_gremlins = 256
 var all_enemies = []
 var Gremlin = preload("../enemies/Gremlin.tscn")
 
+signal enemy_near_player()
+
 func _ready(): 
 	create_gremlins()
 
@@ -22,13 +24,16 @@ func create_gremlin(display_name, gremlin_pos):
 	gremlin.position = gremlin_pos
 	all_enemies.append(gremlin)
 	gremlin.display_name  = display_name
+	gremlin.connect("enemy_near_player", self, "_on_enemy_near_player")
 	add_child(gremlin)
 
 func signal_player_pos_to_enemies(player_pos_x): 
 	for enemy in all_enemies: 
 		enemy.signal_player_pos(player_pos_x)
 		
-#
+func _on_enemy_near_player(): 
+	emit_signal("enemy_near_player")
+	
 #signal deal_damage(amount)
 #signal enemy_near_player(enemy)
 #signal enemy_enters_battle(enemy)

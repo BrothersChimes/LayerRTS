@@ -20,4 +20,5 @@ func signal_player_pos(player_pos_x):
 			enter_battle()
 			
 func enter_battle(): 
+	persistent_state.emit_signal("enemy_near_player")
 	change_state.call_func("attack")
